@@ -12,10 +12,10 @@ export default function App() {
     setIsAddMode(false);
   };
 
-  const addPersonHandler = personName => {
+  const addPersonHandler = (personName, personEmail) => {
     setListedPeople(currentPeople => [
       ...currentPeople,
-      { id: Math.random().toString(), name: personName }
+      { id: Math.random().toString(), name: personName, email: personEmail }
     ]);
     setIsAddMode(false);
   }
@@ -35,6 +35,7 @@ export default function App() {
           <PersonItem
             id={itemData.item.id}
             name={itemData.item.name}
+            email={itemData.item.email}
           />
         )}
       />

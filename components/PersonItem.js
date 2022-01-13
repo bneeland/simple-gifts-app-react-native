@@ -5,6 +5,7 @@ const PersonItem = props => {
   return (
     <View>
       <Text>{props.name}</Text>
+      <Text>{props.email}</Text>
     </View>
   );
 };
