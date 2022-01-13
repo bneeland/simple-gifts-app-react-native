@@ -6,11 +6,16 @@ import PersonInput from './components/PersonInput';
 export default function App() {
   const [isAddMode, setIsAddMode] = useState(false);
 
+  const cancelPersonInputHandler = () => {
+    setIsAddMode(false);
+  };
+
   return (
     <View style={styles.container}>
       <Button title="Add person" onPress={() => setIsAddMode(true)}/>
       <PersonInput
         visible={isAddMode}
+        onCancel={cancelPersonInputHandler}
       />
     </View>
   );
