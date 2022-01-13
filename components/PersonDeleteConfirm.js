@@ -21,7 +21,6 @@ const PersonDeleteConfirm = props => {
   return (
     <Modal visible={props.visible} animationType="slide">
       <View style={styles.container}>
-        <Text>Do you want to delete this person?</Text>
         <Button title="Delete" onPress={props.onDeleteConfirm.bind(this, props.personToDelete)} />
         <Button title="Cancel" onPress={props.onCancel} />
       </View>

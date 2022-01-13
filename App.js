@@ -13,7 +13,7 @@ export default function App() {
 
   const [personToDelete, setPersonToDelete] = useState();
 
-  const cancelPersonAddHandler = () => {
+  const cancelAddPersonHandler = () => {
     setIsAddMode(false);
   };
 
@@ -44,24 +44,32 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <Button title="Add person" onPress={() => setIsAddMode(true)}/>
-      <FlatList
-        keyExtractor={(item, index) => item.id}
-        data={listedPeople}
-        renderItem={itemData => (
-          <PersonItem
-            id={itemData.item.id}
-            name={itemData.item.name}
-            email={itemData.item.email}
-            onDelete={deletePersonHandler}
-          />
-        )}
-      />
+    <View style={styles.screen}>
+      <View style={styles.peopleContainer}>
+        <Button title="Add person" onPress={() => setIsAddMode(true)} />
+        <FlatList
+          keyExtractor={(item, index) => item.id}
+          data={listedPeople}
+          renderItem={itemData => (
+            <PersonItem
+              id={itemData.item.id}
+              name={itemData.item.name}
+              email={itemData.item.email}
+              onDelete={deletePersonHandler}
+            />
+          )}
+        />
+      </View>
+      <View style={styles.inclusionsContainer}>
+        <Text>Inclusions</Text>
+      </View>
+      <View style={styles.exclusionsContainer}>
+        <Text>Exclusions</Text>
+      </View>
       <PersonAddInput
         visible={isAddMode}
         onAddPerson={addPersonHandler}
-        onCancel={cancelPersonAddHandler}
+        onCancel={cancelAddPersonHandler}
       />
       <PersonDeleteConfirm
         visible={isDeleteMode}
@@ -74,10 +82,26 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
+    paddingTop: 24,
+    paddingHorizontal: 16,
+    paddingBottom: 4,
     backgroundColor: 'lightgreen',
-    paddingVertical: 50,
-    paddingHorizontal: 20,
+  },
+  peopleContainer: {
+    flex: 2,
+    backgroundColor: 'lightgoldenrodyellow',
+    paddingTop: 16,
+  },
+  inclusionsContainer: {
+    flex: 1,
+    backgroundColor: 'oldlace',
+    paddingTop: 16,
+  },
+  exclusionsContainer: {
+    flex: 1,
+    backgroundColor: 'beige',
+    paddingTop: 16,
   },
 });

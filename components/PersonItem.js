@@ -7,7 +7,6 @@ const PersonItem = props => {
       <View>
         <Text>{props.name}</Text>
         <Text>{props.email}</Text>
-        <Text>{props.id}</Text>
       </View>
     </TouchableNativeFeedback>
   );
