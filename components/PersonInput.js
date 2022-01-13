@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { StyleSheet, Modal, View, Text, Button, TextInput } from 'react-native';
 
 const PersonInput = props => {
-  const [enteredPerson, setEnteredPerson] = useState('');
+  const [enteredName, setEnteredName] = useState('');
 
-  const personInputHandler = (enteredValue) => {
-    setEnteredPerson(enteredValue)
+  const nameInputHandler = (enteredValue) => {
+    setEnteredName(enteredValue)
   }
 
   const addPersonHandler = () => {
-    props.onAddPerson(enteredPerson);
-    setEnteredPerson('');
+    props.onAddPerson(enteredName);
+    setEnteredName('');
   }
 
   return (
@@ -18,9 +18,9 @@ const PersonInput = props => {
       <View style={styles.container}>
         <Text>Person input</Text>
         <TextInput
-          placeholder="Person"
-          onChangeText={personInputHandler}
-          value={enteredPerson}
+          placeholder="Name"
+          onChangeText={nameInputHandler}
+          name={enteredName}
         />
         <Button title="Add" onPress={addPersonHandler} />
         <Button title="Cancel" onPress={props.onCancel} />

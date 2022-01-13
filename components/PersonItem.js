@@ -4,7 +4,7 @@ import { StyleSheet, View, Text } from 'react-native';
 const PersonItem = props => {
   return (
     <View>
-      <Text>{props.value}</Text>
+      <Text>{props.name}</Text>
     </View>
   );
 };
