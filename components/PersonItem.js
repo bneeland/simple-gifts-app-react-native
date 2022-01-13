@@ -1,12 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableNativeFeedback } from 'react-native';
 
 const PersonItem = props => {
   return (
-    <View>
-      <Text>{props.name}</Text>
-      <Text>{props.email}</Text>
-    </View>
+    <TouchableNativeFeedback activeOpacity={0.5} onPress={props.onDelete.bind(this, props.id)}>
+      <View>
+        <Text>{props.name}</Text>
+        <Text>{props.email}</Text>
+        <Text>{props.id}</Text>
+      </View>
+    </TouchableNativeFeedback>
   );
 };
 

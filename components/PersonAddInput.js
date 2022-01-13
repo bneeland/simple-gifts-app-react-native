@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Modal, View, Text, Button, TextInput } from 'react-native';
 
-const PersonInput = props => {
+const PersonAddInput = props => {
   const [enteredName, setEnteredName] = useState('');
   const [enteredEmail, setEnteredEmail] = useState('');
 
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PersonInput;
+export default PersonAddInput;
