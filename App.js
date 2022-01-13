@@ -3,11 +3,15 @@ import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 
 import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
+import PersonDeleteConfirm from './components/PersonDeleteConfirm';
 
 export default function App() {
   const [isAddMode, setIsAddMode] = useState(false);
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
 
   const [listedPeople, setListedPeople] = useState([]);
+
+  const [personToDelete, setPersonToDelete] = useState();
 
   const cancelPersonAddHandler = () => {
     setIsAddMode(false);
@@ -22,11 +26,21 @@ export default function App() {
   };
 
   const deletePersonHandler = personId => {
-    console.log(personId);
-    console.log(listedPeople);
+    setPersonToDelete(personId);
+    setIsDeleteMode(true);
+  };
+
+
+  const cancelDeletePersonHandler = () => {
+    setPersonToDelete('');
+    setIsDeleteMode(false);
+  };
+
+  const confirmDeletePersonHandler = personId => {
     setListedPeople(currentPeople => {
       return currentPeople.filter((person) => person.id !== personId)
     });
+    setIsDeleteMode(false);
   };
 
   return (
@@ -48,6 +62,12 @@ export default function App() {
         visible={isAddMode}
         onAddPerson={addPersonHandler}
         onCancel={cancelPersonAddHandler}
+      />
+      <PersonDeleteConfirm
+        visible={isDeleteMode}
+        onDeleteConfirm={confirmDeletePersonHandler}
+        onCancel={cancelDeletePersonHandler}
+        personToDelete={personToDelete}
       />
     </View>
   );
