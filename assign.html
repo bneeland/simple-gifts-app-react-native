@@ -124,9 +124,12 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
   let n = 0;
 
-  for (let person1 of randomizedListedPeople) {
+  for (let [i, person1] of Object.entries(randomizedListedPeople)) {
     matched = false;
     iterations = 0;
+
+    console.log(i);
+    console.log(person1['name']);
 
     if (!(person1['id'] in vectors)) {
       console.log(person1['id'] + " is not in vectors")
