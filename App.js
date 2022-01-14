@@ -10,11 +10,15 @@ import ExclusionDeleteConfirm from './components/ExclusionDeleteConfirm';
 import InclusionItem from './components/InclusionItem';
 import ExclusionItem from './components/ExclusionItem';
 
+import SendEmailsButton from './components/SendEmailsButton';
+import SendEmailsConfirm from './components/SendEmailsConfirm';
+
 export default function App() {
   const [isAddPersonMode, setIsAddPersonMode] = useState(false);
   const [isDeletePersonMode, setIsDeletePersonMode] = useState(false);
   const [isDeleteInclusionMode, setIsDeleteInclusionMode] = useState(false);
   const [isDeleteExclusionMode, setIsDeleteExclusionMode] = useState(false);
+  const [isSendEmailsMode, setIsSendEmailsMode] = useState(false);
 
   const [listedPeople, setListedPeople] = useState([]);
 
@@ -45,19 +49,16 @@ export default function App() {
   const deletePersonHandler = personId => {
     setPersonToDelete(personId);
     setIsDeletePersonMode(true);
-    console.log(personId);
   };
 
   const deleteInclusionHandler = inclusionId => {
     setInclusionToDelete(inclusionId);
     setIsDeleteInclusionMode(true);
-    console.log(inclusionId);
   };
 
   const deleteExclusionHandler = exclusionId => {
     setExclusionToDelete(exclusionId);
     setIsDeleteExclusionMode(true);
-    console.log(exclusionId);
   };
 
   const cancelDeletePersonHandler = () => {
@@ -73,6 +74,14 @@ export default function App() {
   const cancelDeleteExclusionHandler = () => {
     setExclusionToDelete('');
     setIsDeleteExclusionMode(false);
+  };
+
+  const cancelSendEmailsHandler = () => {
+    setIsSendEmailsMode(false);
+  };
+
+  const sendEmailsHandler = () => {
+    setIsSendEmailsMode(true);
   };
 
   const confirmDeletePersonHandler = personId => {
@@ -205,6 +214,12 @@ export default function App() {
           )}
         />
       </View>
+      <View>
+        <SendEmailsButton
+          onSendEmails={sendEmailsHandler}
+        />
+      </View>
+
       <PersonAddInput
         visible={isAddPersonMode}
         onAddPerson={addPersonHandler}
@@ -228,6 +243,10 @@ export default function App() {
         onDeleteConfirm={confirmDeleteExclusionHandler}
         onCancel={cancelDeleteExclusionHandler}
       />
+      <SendEmailsConfirm
+        visible={isSendEmailsMode}
+        onCancel={cancelSendEmailsHandler}
+      />
     </View>
   );
 }
@@ -237,7 +256,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 24,
     paddingHorizontal: 16,
-    paddingBottom: 4,
+    paddingBottom: 16,
     backgroundColor: 'navajowhite',
   },
   peopleContainer: {
