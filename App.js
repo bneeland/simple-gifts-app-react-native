@@ -5,9 +5,7 @@ import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
 import PersonDeleteConfirm from './components/PersonDeleteConfirm';
 
-import InclusionAddSelect from './components/InclusionAddSelect';
 import InclusionItem from './components/InclusionItem';
-import ExclusionAddSelect from './components/ExclusionAddSelect';
 import ExclusionItem from './components/ExclusionItem';
 
 export default function App() {
@@ -19,12 +17,10 @@ export default function App() {
   const [personToDelete, setPersonToDelete] = useState();
 
   const [isAddInclusionMode, setIsAddInclusionMode] = useState(false);
-  const [isDeleteInclusionMode, setIsDeleteInclusionMode] = useState(false);
   const [currentInclusion, setCurrentInclusion] = useState([]);
   const [listedInclusions, setListedInclusions] = useState([]);
 
   const [isAddExclusionMode, setIsAddExclusionMode] = useState(false);
-  const [isDeleteExclusionMode, setIsDeleteExclusionMode] = useState(false);
   const [currentExclusion, setCurrentExclusion] = useState([]);
   const [listedExclusions, setListedExclusions] = useState([]);
 
@@ -107,20 +103,8 @@ export default function App() {
     setIsAddExclusionMode(false);
   }
 
-  const cancelAddInclusionHandler = () => {
-    setIsAddInclusionMode(false);
-  };
-
-  const cancelAddExclusionHandler = () => {
-    setIsAddExclusionMode(false);
-  };
-
   return (
     <View style={styles.screen}>
-      <Text>Current inclusion 0: {currentInclusion[0]}</Text>
-      <Text>Current inclusion 1: {currentInclusion[1]}</Text>
-      <Text>Current exclusion 0: {currentExclusion[0]}</Text>
-      <Text>Current exclusion 1: {currentExclusion[1]}</Text>
       <View style={styles.peopleContainer}>
         <Button title="Add person" onPress={() => setIsAddPersonMode(true)} />
         <FlatList
@@ -180,14 +164,6 @@ export default function App() {
         personToDelete={personToDelete}
         onDeleteConfirm={confirmDeletePersonHandler}
         onCancel={cancelDeletePersonHandler}
-      />
-      <InclusionAddSelect
-        visible={false}
-        onCancel={cancelAddInclusionHandler}
-      />
-      <ExclusionAddSelect
-        visible={false}
-        onCancel={cancelAddExclusionHandler}
       />
     </View>
   );
