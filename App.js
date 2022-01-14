@@ -77,6 +77,10 @@ export default function App() {
     setIsAddInclusionMode(false);
     console.log(currentInclusion);
   }
+  const cancelInclusionHandler = () => {
+    setCurrentInclusion([]);
+    setIsAddInclusionMode(false);
+  }
 
   const startExclusionHandler = (personId) => {
     setIsAddExclusionMode(true);
@@ -87,13 +91,21 @@ export default function App() {
     setCurrentExclusion(currentPersonId => [
       ...currentPersonId, personId
     ]);
+    console.log(currentExclusion);
+  };
+  const confirmExclusionHandler = () => {
     setListedExclusions(currentExclusions => [
       ...currentExclusions,
       { id: Math.random()*Math.pow(10,18).toString(), from: currentExclusion[0], to: currentExclusion[1] }
     ]);
+    setCurrentExclusion([]);
     setIsAddExclusionMode(false);
     console.log(currentExclusion);
-  };
+  }
+  const cancelExclusionHandler = () => {
+    setCurrentExclusion([]);
+    setIsAddExclusionMode(false);
+  }
 
   const cancelAddInclusionHandler = () => {
     setIsAddInclusionMode(false);
@@ -123,11 +135,11 @@ export default function App() {
               onStartInclusion={startInclusionHandler}
               onStopInclusion={stopInclusionHandler}
               onConfirmInclusion={confirmInclusionHandler}
-              // onCancelInclusion={cancelInclusionHandler}
+              onCancelInclusion={cancelInclusionHandler}
               onStartExclusion={startExclusionHandler}
               onStopExclusion={stopExclusionHandler}
-              // onConfirmExclusion={confirmExclusionHandler}
-              // onCancelExclusion={cancelExclusionHandler}
+              onConfirmExclusion={confirmExclusionHandler}
+              onCancelExclusion={cancelExclusionHandler}
             />
           )}
         />
