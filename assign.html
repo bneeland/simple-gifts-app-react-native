@@ -118,20 +118,20 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
   }
   console.log(vectors);
 
-  // let excluded = false;
-  // let matched = false;
-  // let iterations = 0;
-  //
-  // let n = 0;
-  //
-  // for (let person1 of randomizedListedPeople) {
-  //   matched = false;
-  //   iterations = 0;
-  // }
-  //
-  // if (vectors.indexOf(person1) == -1) {
-  //   console.log(person1 + " is not in vectors")
-  // }
+  let excluded = false;
+  let matched = false;
+  let iterations = 0;
+
+  let n = 0;
+
+  for (let person1 of randomizedListedPeople) {
+    matched = false;
+    iterations = 0;
+
+    if (!(person1['id'] in vectors)) {
+      console.log(person1['id'] + " is not in vectors")
+    }
+  }
 }
 
 get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
