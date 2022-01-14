@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
 import PersonDeleteConfirm from './components/PersonDeleteConfirm';
+import InclusionDeleteConfirm from './components/InclusionDeleteConfirm';
+import ExclusionDeleteConfirm from './components/ExclusionDeleteConfirm';
 
 import InclusionItem from './components/InclusionItem';
 import ExclusionItem from './components/ExclusionItem';
@@ -11,10 +13,14 @@ import ExclusionItem from './components/ExclusionItem';
 export default function App() {
   const [isAddPersonMode, setIsAddPersonMode] = useState(false);
   const [isDeletePersonMode, setIsDeletePersonMode] = useState(false);
+  const [isDeleteInclusionMode, setIsDeleteInclusionMode] = useState(false);
+  const [isDeleteExclusionMode, setIsDeleteExclusionMode] = useState(false);
 
   const [listedPeople, setListedPeople] = useState([]);
 
   const [personToDelete, setPersonToDelete] = useState();
+  const [inclusionToDelete, setInclusionToDelete] = useState();
+  const [exclusionToDelete, setExclusionToDelete] = useState();
 
   const [isAddInclusionMode, setIsAddInclusionMode] = useState(false);
   const [currentInclusion, setCurrentInclusion] = useState([]);
@@ -39,6 +45,19 @@ export default function App() {
   const deletePersonHandler = personId => {
     setPersonToDelete(personId);
     setIsDeletePersonMode(true);
+    console.log(personId);
+  };
+
+  const deleteInclusionHandler = inclusionId => {
+    setInclusionToDelete(inclusionId);
+    setIsDeleteInclusionMode(true);
+    console.log(inclusionId);
+  };
+
+  const deleteExclusionHandler = exclusionId => {
+    setExclusionToDelete(exclusionId);
+    setIsDeleteExclusionMode(true);
+    console.log(exclusionId);
   };
 
   const cancelDeletePersonHandler = () => {
@@ -46,11 +65,35 @@ export default function App() {
     setIsDeletePersonMode(false);
   };
 
+  const cancelDeleteInclusionHandler = () => {
+    setInclusionToDelete('');
+    setIsDeleteInclusionMode(false);
+  };
+
+  const cancelDeleteExclusionHandler = () => {
+    setExclusionToDelete('');
+    setIsDeleteExclusionMode(false);
+  };
+
   const confirmDeletePersonHandler = personId => {
     setListedPeople(currentPeople => {
       return currentPeople.filter((person) => person.id !== personId)
     });
     setIsDeletePersonMode(false);
+  };
+
+  const confirmDeleteInclusionHandler = inclusionId => {
+    setListedInclusions(currentInclusion => {
+      return currentInclusion.filter((inclusion) => inclusion.id !== inclusionId)
+    });
+    setIsDeleteInclusionMode(false);
+  };
+
+  const confirmDeleteExclusionHandler = exclusionId => {
+    setListedExclusions(currentExclusion => {
+      return currentExclusion.filter((exclusion) => exclusion.id !== exclusionId)
+    });
+    setIsDeleteExclusionMode(false);
   };
 
   const startInclusionHandler = (personId) => {
@@ -142,6 +185,8 @@ export default function App() {
             <InclusionItem
               from={getPersonItemName(itemData.item.from)}
               to={getPersonItemName(itemData.item.to)}
+              id={itemData.item.id}
+              onDelete={deleteInclusionHandler}
             />
           )}
         />
@@ -154,6 +199,8 @@ export default function App() {
             <ExclusionItem
               from={getPersonItemName(itemData.item.from)}
               to={getPersonItemName(itemData.item.to)}
+              id={itemData.item.id}
+              onDelete={deleteExclusionHandler}
             />
           )}
         />
@@ -168,6 +215,18 @@ export default function App() {
         personToDelete={personToDelete}
         onDeleteConfirm={confirmDeletePersonHandler}
         onCancel={cancelDeletePersonHandler}
+      />
+      <InclusionDeleteConfirm
+        visible={isDeleteInclusionMode}
+        inclusionToDelete={inclusionToDelete}
+        onDeleteConfirm={confirmDeleteInclusionHandler}
+        onCancel={cancelDeleteInclusionHandler}
+      />
+      <ExclusionDeleteConfirm
+        visible={isDeleteExclusionMode}
+        exclusionToDelete={exclusionToDelete}
+        onDeleteConfirm={confirmDeleteExclusionHandler}
+        onCancel={cancelDeleteExclusionHandler}
       />
     </View>
   );

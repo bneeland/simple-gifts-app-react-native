@@ -5,8 +5,8 @@ const InclusionItem = props => {
   return (
     <TouchableNativeFeedback>
       <View>
-        <Text>From: {props.from}</Text>
-        <Text>To: {props.to}</Text>
+        <Text>{props.from} must give to {props.to}</Text>
+        <Button title="Delete" onPress={props.onDelete.bind(this, props.id)} />
       </View>
     </TouchableNativeFeedback>
   );
