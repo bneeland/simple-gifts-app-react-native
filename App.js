@@ -6,7 +6,9 @@ import PersonAddInput from './components/PersonAddInput';
 import PersonDeleteConfirm from './components/PersonDeleteConfirm';
 
 import InclusionAddSelect from './components/InclusionAddSelect';
+import InclusionItem from './components/InclusionItem';
 import ExclusionAddSelect from './components/ExclusionAddSelect';
+import ExclusionItem from './components/ExclusionItem';
 
 export default function App() {
   const [isAddPersonMode, setIsAddPersonMode] = useState(false);
@@ -58,37 +60,20 @@ export default function App() {
   const startInclusionHandler = (personId) => {
     setIsAddInclusionMode(true);
     setCurrentInclusion([personId]);
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
-    console.log('')
     console.log(currentInclusion);
-  }
+  };
   const stopInclusionHandler = (personId) => {
     setCurrentInclusion(currentPersonId => [
       ...currentPersonId, personId
     ]);
+    console.log(currentInclusion);
+  };
+  const confirmInclusionHandler = () => {
+    setListedInclusions(currentInclusions => [
+      ...currentInclusions,
+      { id: Math.random()*Math.pow(10,18).toString(), from: currentInclusion[0], to: currentInclusion[1] }
+    ]);
+    setCurrentInclusion([]);
     setIsAddInclusionMode(false);
     console.log(currentInclusion);
   }
@@ -97,14 +82,18 @@ export default function App() {
     setIsAddExclusionMode(true);
     setCurrentExclusion([personId]);
     console.log(currentExclusion);
-  }
+  };
   const stopExclusionHandler = (personId) => {
     setCurrentExclusion(currentPersonId => [
       ...currentPersonId, personId
     ]);
+    setListedExclusions(currentExclusions => [
+      ...currentExclusions,
+      { id: Math.random()*Math.pow(10,18).toString(), from: currentExclusion[0], to: currentExclusion[1] }
+    ]);
     setIsAddExclusionMode(false);
     console.log(currentExclusion);
-  }
+  };
 
   const cancelAddInclusionHandler = () => {
     setIsAddInclusionMode(false);
@@ -116,6 +105,10 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
+      <Text>Current inclusion 0: {currentInclusion[0]}</Text>
+      <Text>Current inclusion 1: {currentInclusion[1]}</Text>
+      <Text>Current exclusion 0: {currentExclusion[0]}</Text>
+      <Text>Current exclusion 1: {currentExclusion[1]}</Text>
       <View style={styles.peopleContainer}>
         <Button title="Add person" onPress={() => setIsAddPersonMode(true)} />
         <FlatList
@@ -128,18 +121,42 @@ export default function App() {
               email={itemData.item.email}
               onDelete={deletePersonHandler}
               onStartInclusion={startInclusionHandler}
-              onStartExclusion={startExclusionHandler}
               onStopInclusion={stopInclusionHandler}
+              onConfirmInclusion={confirmInclusionHandler}
+              // onCancelInclusion={cancelInclusionHandler}
+              onStartExclusion={startExclusionHandler}
               onStopExclusion={stopExclusionHandler}
+              // onConfirmExclusion={confirmExclusionHandler}
+              // onCancelExclusion={cancelExclusionHandler}
             />
           )}
         />
       </View>
       <View style={styles.inclusionsContainer}>
-        <Button title="Add inclusion" onPress={() => setIsAddInclusionMode(true)} />
+        <FlatList
+          keyExtractor={(item, index) => item.id}
+          data={listedInclusions}
+          renderItem={itemData => (
+            <InclusionItem
+              id={itemData.item.id}
+              from={itemData.item.from}
+              to={itemData.item.to}
+            />
+          )}
+        />
       </View>
       <View style={styles.exclusionsContainer}>
-        <Button title="Add exclusion" onPress={() => setIsAddExclusionMode(true)} />
+        <FlatList
+          keyExtractor={(item, index) => item.id}
+          data={listedExclusions}
+          renderItem={itemData => (
+            <ExclusionItem
+              id={itemData.item.id}
+              from={itemData.item.from}
+              to={itemData.item.to}
+            />
+          )}
+        />
       </View>
       <PersonAddInput
         visible={isAddPersonMode}
@@ -173,7 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'navajowhite',
   },
   peopleContainer: {
-    flex: 6,
+    flex: 2,
     backgroundColor: 'lightgoldenrodyellow',
     paddingTop: 16,
   },
