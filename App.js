@@ -10,15 +10,15 @@ import ExclusionDeleteConfirm from './components/ExclusionDeleteConfirm';
 import InclusionItem from './components/InclusionItem';
 import ExclusionItem from './components/ExclusionItem';
 
-import SendEmailsButton from './components/SendEmailsButton';
-import SendEmailsConfirm from './components/SendEmailsConfirm';
+import AssignButton from './components/AssignButton';
+import AssignConfirm from './components/AssignConfirm';
 
 export default function App() {
   const [isAddPersonMode, setIsAddPersonMode] = useState(false);
   const [isDeletePersonMode, setIsDeletePersonMode] = useState(false);
   const [isDeleteInclusionMode, setIsDeleteInclusionMode] = useState(false);
   const [isDeleteExclusionMode, setIsDeleteExclusionMode] = useState(false);
-  const [isSendEmailsMode, setIsSendEmailsMode] = useState(false);
+  const [isAssignMode, setIsAssignMode] = useState(false);
 
   const [listedPeople, setListedPeople] = useState([]);
 
@@ -76,13 +76,20 @@ export default function App() {
     setIsDeleteExclusionMode(false);
   };
 
-  const cancelSendEmailsHandler = () => {
-    setIsSendEmailsMode(false);
+  const cancelAssignHandler = () => {
+    setIsAssignMode(false);
   };
 
-  const sendEmailsHandler = () => {
-    setIsSendEmailsMode(true);
+  const assignHandler = () => {
+    setIsAssignMode(true);
   };
+
+  const confirmAssignHandler = () => {
+    setIsAssignMode(false);
+    listedPeople
+    listedInclusions
+    listedExclusions
+  }
 
   const confirmDeletePersonHandler = personId => {
     setListedPeople(currentPeople => {
@@ -215,8 +222,8 @@ export default function App() {
         />
       </View>
       <View>
-        <SendEmailsButton
-          onSendEmails={sendEmailsHandler}
+        <AssignButton
+          onAssign={assignHandler}
         />
       </View>
 
@@ -243,9 +250,10 @@ export default function App() {
         onDeleteConfirm={confirmDeleteExclusionHandler}
         onCancel={cancelDeleteExclusionHandler}
       />
-      <SendEmailsConfirm
-        visible={isSendEmailsMode}
-        onCancel={cancelSendEmailsHandler}
+      <AssignConfirm
+        visible={isAssignMode}
+        onCancel={cancelAssignHandler}
+        onConfirm={confirmAssignHandler}
       />
     </View>
   );
