@@ -6,6 +6,7 @@ const InclusionDeleteConfirm = props => {
   return (
     <Modal visible={props.visible} animationType="slide">
       <View style={styles.container}>
+        <Text>Are you sure you want to delete this rule?</Text>
         <Button title="Delete" onPress={props.onDeleteConfirm.bind(this, props.inclusionToDelete)} />
         <Button title="Cancel" onPress={props.onCancel} />
       </View>

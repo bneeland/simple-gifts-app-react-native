@@ -4,7 +4,7 @@ import { StyleSheet, View, Button } from 'react-native';
 const SendEmailsButton = props => {
   return (
     <View>
-      <Button title="Send emails out..." onPress={props.onSendEmails} />
+      <Button title="Match people and send emails…" onPress={props.onSendEmails} />
     </View>
   );
 };
