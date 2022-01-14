@@ -72,11 +72,12 @@ export default function App() {
     setCurrentInclusion([]);
     setIsAddInclusionMode(false);
     console.log(currentInclusion);
-  }
+    console.log(listedInclusions);
+  };
   const cancelInclusionHandler = () => {
     setCurrentInclusion([]);
     setIsAddInclusionMode(false);
-  }
+  };
 
   const startExclusionHandler = (personId) => {
     setIsAddExclusionMode(true);
@@ -97,11 +98,16 @@ export default function App() {
     setCurrentExclusion([]);
     setIsAddExclusionMode(false);
     console.log(currentExclusion);
-  }
+    console.log(listedExclusions);
+  };
   const cancelExclusionHandler = () => {
     setCurrentExclusion([]);
     setIsAddExclusionMode(false);
-  }
+  };
+
+  const getPersonItemName = (personId) => {
+    return listedPeople.find(el => (el.id === personId)).name;
+  };
 
   return (
     <View style={styles.screen}>
@@ -134,9 +140,8 @@ export default function App() {
           data={listedInclusions}
           renderItem={itemData => (
             <InclusionItem
-              id={itemData.item.id}
-              from={itemData.item.from}
-              to={itemData.item.to}
+              from={getPersonItemName(itemData.item.from)}
+              to={getPersonItemName(itemData.item.to)}
             />
           )}
         />
@@ -147,9 +152,8 @@ export default function App() {
           data={listedExclusions}
           renderItem={itemData => (
             <ExclusionItem
-              id={itemData.item.id}
-              from={itemData.item.from}
-              to={itemData.item.to}
+              from={getPersonItemName(itemData.item.from)}
+              to={getPersonItemName(itemData.item.to)}
             />
           )}
         />
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'navajowhite',
   },
   peopleContainer: {
-    flex: 2,
+    flex: 5,
     backgroundColor: 'lightgoldenrodyellow',
     paddingTop: 16,
   },

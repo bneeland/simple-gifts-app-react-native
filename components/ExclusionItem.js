@@ -7,7 +7,6 @@ const ExclusionItem = props => {
       <View>
         <Text>From: {props.from}</Text>
         <Text>To: {props.to}</Text>
-        <Text>ID: {props.id}</Text>
       </View>
     </TouchableNativeFeedback>
   );
