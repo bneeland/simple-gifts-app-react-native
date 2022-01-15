@@ -39,9 +39,9 @@ console.log('listedPeople:', listedPeople);
 
 const listedInclusions = [
   {
-    "from": 938705020378835700,
+    "from": 652899634236487300,
     "id": 56278601168576744,
-    "to": 652899634236487300,
+    "to": 938705020378835700,
   },
 ];
 
@@ -67,6 +67,46 @@ const listedExclusions = [
     "from": 83417727648052880,
     "id": 160007785193832830,
     "to": 223820751693978620,
+  },
+  {
+    "from": 938705020378835700,
+    "id": 160007785193836734,
+    "to": 223820751693978620,
+  },
+  {
+    "from": 223820751693978620,
+    "id": 160007785193839283,
+    "to": 938705020378835700,
+  },
+  {
+    "from": 938705020378835700,
+    "id": 160007785193830273,
+    "to": 83417727648052880,
+  },
+  {
+    "from": 83417727648052880,
+    "id": 160007785193831367,
+    "to": 938705020378835700,
+  },
+  {
+    "from": 679486706697450400,
+    "id": 160007785193830973,
+    "to": 900741110005811700,
+  },
+  {
+    "from": 900741110005811700,
+    "id": 160007785193831273,
+    "to": 679486706697450400,
+  },
+  {
+    "from": 938705020378835700,
+    "id": 160007785193831273,
+    "to": 900741110005811700,
+  },
+  {
+    "from": 900741110005811700,
+    "id": 160007785193831273,
+    "to": 938705020378835700,
   },
 ];
 
@@ -105,6 +145,8 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
   let vectors = {};
 
+  let vectorsNames = {};
+
   console.log('Initial vectors (empty):', vectors);
 
   for (listedInclusion of listedInclusions) {
@@ -114,6 +156,8 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
     console.log('listedInclusion:', listedInclusion);
 
     vectors[listedInclusion['from']] = listedInclusion['to'];
+
+    vectorsNames[listedPeople.find(person => person.id == listedInclusion['from'])['name']] = listedPeople.find(person => person.id == listedInclusion['to'])['name'];
   }
 
   console.log('>Inclusions assigned to vectors')
@@ -141,7 +185,7 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
     if (!(person1['id'] in vectors)) {
 
-      console.log('>Person is not already in vectors, so assigment can proceed');
+      console.log('>Person is not in vectors yet, so assigment can proceed');
 
       if (i == (randomizedListedPeople.length - 1)) {
         n = 0;
@@ -188,7 +232,10 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
             console.log('n: ', n);
 
-          } else if (person2['id'] in Object.values(vectors)) {
+          } else if (Object.values(vectors).includes(person2['id'])) {
+
+            console.log("person2['id']:", person2['id']);
+            console.log('Object.values(vectors):', Object.values(vectors));
 
             console.log('Person 2 is already assigned to someone else. Move on to next person 2.');
 
@@ -240,6 +287,10 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
               vectors[person1['id']] = person2['id'];
               matched = true;
 
+              vectorsNames[person1['name']] = person2['name'];
+
+              console.log(vectorsNames);
+
             }
           }
         } else {
@@ -262,8 +313,6 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
 
 var vectors = {0: 0};
-
-console.log(vectors[0] === 0);
 
 var randomizedListedPeople = {};
 
