@@ -35,7 +35,7 @@ const listedPeople = [
   },
 ];
 
-console.log(listedPeople);
+console.log('listedPeople:', listedPeople);
 
 const listedInclusions = [
   {
@@ -45,7 +45,7 @@ const listedInclusions = [
   },
 ];
 
-console.log(listedInclusions);
+console.log('listedInclusions:', listedInclusions);
 
 const listedExclusions = [
   {
@@ -70,7 +70,7 @@ const listedExclusions = [
   },
 ];
 
-console.log(listedExclusions);
+console.log('listedExclusions:', listedExclusions);
 
 function randomize(arrayIn) {
     let arrayOut = [];
@@ -92,10 +92,6 @@ function randomizePeople(listedPeople) {
 
     return randomizedListedPeople;
 };
-
-var randomizedListedPeople = randomizePeople(listedPeople)
-
-console.log(randomizedListedPeople);
 
 function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions) {
 
@@ -250,8 +246,7 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
           console.log('No assignment found for this person 1. Start over: re-randomize and call this assignment function all over again.');
 
-          randomizedListedPeople = randomizePeople(randomizedListedPeople);
-          vectors = get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+          return {0: 0};
 
         }
       }
@@ -265,7 +260,23 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
 }
 
-let vectors = get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+
+var vectors = {0: 0};
+
+console.log(vectors[0] === 0);
+
+var randomizedListedPeople = {};
+
+let maxIterations = 3;
+let iterations = 0;
+
+while (vectors[0] === 0 && iterations <= maxIterations) {
+  iterations++;
+  randomizedListedPeople = randomizePeople(listedPeople);
+  console.log(randomizedListedPeople);
+  vectors = get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+  console.log(vectors);
+}
 
 console.log(vectors);
 
