@@ -58,6 +58,16 @@ const listedExclusions = [
     "id": 160007785937532830,
     "to": 938705020378835700,
   },
+  {
+    "from": 223820751693978620,
+    "id": 158482040150343700,
+    "to": 83417727648052880,
+  },
+  {
+    "from": 83417727648052880,
+    "id": 160007785193832830,
+    "to": 223820751693978620,
+  },
 ];
 
 console.log(listedExclusions);
@@ -89,13 +99,30 @@ console.log(randomizedListedPeople);
 
 function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions) {
 
+  console.log('------------------');
+  console.log('------------------');
+  console.log('------------------');
+  console.log('<Start function>');
+  console.log('------------------');
+  console.log('------------------');
+  console.log('------------------');
+
   let vectors = {};
 
+  console.log('Initial vectors (empty):', vectors);
+
   for (listedInclusion of listedInclusions) {
+
+    console.log('<Start inclusions for loop>');
+
+    console.log('listedInclusion:', listedInclusion);
+
     vectors[listedInclusion['from']] = listedInclusion['to'];
   }
-  console.log(vectors);
-  console.log('----');
+
+  console.log('>Inclusions assigned to vectors')
+
+  console.log('vectors:', vectors);
 
   let excluded = false;
   let matched = false;
@@ -105,7 +132,12 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
   for (let [i, person1] of Object.entries(randomizedListedPeople)) {
 
+    console.log('------------------');
+    console.log('------------------');
     console.log('<Start for loop>');
+    console.log('------------------');
+    console.log('------------------');
+
     console.log('Person to get assignment:', i, person1);
 
     matched = false;
@@ -129,15 +161,18 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
       }
 
-      while (!(matched) && iterations<10) {
+      while (!(matched)) {
 
+        console.log('------------------');
         console.log('<Start while loop>')
+        console.log('------------------');
+
         console.log('>Not matched yet, so while loop proceeds')
 
         if (iterations < (randomizedListedPeople.length * 2)) {
 
-          console.log('Iterations:', iterations);
-          console.log('>Iterations still below 2 times list length (haven\'t run through twice yet), so while loop keeps going');
+          console.log('iterations:', iterations);
+          console.log('>iterations still below 2 times list length (haven\'t run through twice yet), so while loop keeps going');
 
           excluded = false;
           person2 = randomizedListedPeople[n];
@@ -172,19 +207,19 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
           } else {
 
-            for (exclusion of Object.entries(listedExclusions)) {
+            for (listedExclusion of listedExclusions) {
 
               console.log('<Start for loop (run through exclusions)>')
 
-              if (exclusion['from'] == person1['id'] && exclusion['to'] == person2['id']) {
+              if (listedExclusion['from'] == person1['id'] && listedExclusion['to'] == person2['id']) {
 
-                console.log('Exclusion from', exclusion['from'], 'is person 1 and exclusion to', exclusion['to'], 'is person 2. This exclusion applies. Assignment can\'t proceed. Break out of the for loop.');
+                console.log('Exclusion from', listedExclusion['from'], 'is person 1 and exclusion to', listedExclusion['to'], 'is person 2. This exclusion applies. Assignment can\'t proceed. Break out of the for loop.');
 
                 excluded = true;
                 break;
               } else {
 
-                console.log('This exclusion doesn\'t apply. Keep going through rest of exclusions.');
+                console.log('This exclusion (', listedExclusion['from'], 'can\'t give to', listedExclusion['to'], ') doesn\'t apply. Keep going through rest of exclusions.');
 
               }
             }
@@ -204,7 +239,7 @@ function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions)
 
             } else {
 
-              console.log('Success; person 2', person2['id'], 'can be assigned to person 1', person1['id']);
+              console.log('Success: person 1', person1['id'], 'can give to person 2', person2['id']);
 
               vectors[person1['id']] = person2['id'];
               matched = true;
