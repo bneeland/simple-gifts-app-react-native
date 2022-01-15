@@ -86,9 +86,9 @@ export default function App() {
 
   const confirmAssignHandler = () => {
     setIsAssignMode(false);
-    listedPeople
-    listedInclusions
-    listedExclusions
+    // listedPeople
+    // listedInclusions
+    // listedExclusions
   }
 
   const confirmDeletePersonHandler = personId => {

@@ -111,32 +111,101 @@ var randomizedListedPeople = randomizePeople(listedPeople)
 console.log(randomizedListedPeople);
 
 function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions) {
+
   let vectors = {};
 
   for (listedInclusion of listedInclusions) {
     vectors[listedInclusion['from']] = listedInclusion['to'];
   }
   console.log(vectors);
+  console.log('----');
 
   let excluded = false;
   let matched = false;
   let iterations = 0;
-
+  let person2;
   let n = 0;
 
   for (let [i, person1] of Object.entries(randomizedListedPeople)) {
+
     matched = false;
     iterations = 0;
 
-    console.log(i);
-    console.log(person1['name']);
-
     if (!(person1['id'] in vectors)) {
-      console.log(person1['id'] + " is not in vectors")
+
+      if (i == (randomizedListedPeople.length - 1)) {
+        n = 0;
+      } else {
+        n = parseInt(i) + 1;
+      }
+
+      while (!(matched) && iterations<10) {
+
+        if (iterations < (randomizedListedPeople.length * 2)) {
+          excluded = false;
+          person2 = randomizedListedPeople[n];
+
+          if (person2 == person1) {
+
+            if (n >= (randomizedListedPeople.length - 1)) {
+              n = 0;
+            } else {
+              n++;
+            }
+            iterations++;
+
+          } else if (person2['id'] in vectors) {
+
+            if (n >= (randomizedListedPeople.length - 1)) {
+              n = 0;
+            } else {
+              n++;
+            }
+            iterations++;
+
+          } else {
+
+            for (exclusion of Object.entries(listedExclusions)) {
+
+              if (exclusion['from'] == person1['id'] && exclusion['to'] == person2['id']) {
+                excluded = true;
+                break;
+              }
+
+              if (excluded) {
+
+                if (n >= (randomizedListedPeople.length - 1)) {
+                  n = 0;
+                } else {
+                  n++;
+                }
+                iterations++;
+
+              } else {
+
+                vectors[listedInclusion['from']] = listedInclusion['to'];
+                matched = true;
+
+              }
+            }
+          }
+        } else {
+
+          randomizedListedPeople = randomizePeople(randomizedListedPeople);
+          vectors = get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+
+        }
+      }
     }
+    console.log(vectors);
   }
+
+  return vectors;
+
 }
 
-get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+let vectors = get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+
+console.log(vectors);
 
 </script>
