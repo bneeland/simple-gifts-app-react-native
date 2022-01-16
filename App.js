@@ -86,9 +86,162 @@ export default function App() {
 
   const confirmAssignHandler = () => {
     setIsAssignMode(false);
-    // listedPeople
-    // listedInclusions
-    // listedExclusions
+
+
+
+
+
+
+
+
+    function randomize(arrayIn) {
+        let arrayOut = [];
+        for(let i in arrayIn) {
+            let randomIndex = Math.floor(Math.random() * arrayIn.length);
+            while(arrayOut.includes(arrayIn[randomIndex])) {
+                randomIndex = Math.floor(Math.random() * arrayIn.length);
+            }
+            arrayOut[i] = arrayIn[randomIndex];
+        }
+        return arrayOut;
+    }
+
+    function randomizePeople(listedPeople) {
+        var randomizedListedPeople = randomize(listedPeople);
+        randomizedListedPeople = randomize(randomizedListedPeople);
+        randomizedListedPeople = randomize(randomizedListedPeople);
+        randomizedListedPeople = randomize(randomizedListedPeople);
+
+        return randomizedListedPeople;
+    };
+
+    function get_vectors(randomizedListedPeople, listedInclusions, listedExclusions) {
+
+      let vectors = {};
+
+      let vectorsNames = {};
+
+      for (const listedInclusion of listedInclusions) {
+
+        vectors[listedInclusion['from']] = listedInclusion['to'];
+
+        vectorsNames[listedPeople.find(person => person.id == listedInclusion['from'])['name']] = listedPeople.find(person => person.id == listedInclusion['to'])['name'];
+
+      }
+
+      let excluded = false;
+      let matched = false;
+      let iterations = 0;
+      let person2;
+      let n = 0;
+
+      for (let [i, person1] of Object.entries(randomizedListedPeople)) {
+
+        matched = false;
+        iterations = 0;
+
+        if (!(person1['id'] in vectors)) {
+
+          if (i == (randomizedListedPeople.length - 1)) {
+            n = 0;
+
+          } else {
+
+            n = parseInt(i) + 1;
+
+          }
+
+          while (!(matched)) {
+
+            if (iterations < (randomizedListedPeople.length * 2)) {
+
+              excluded = false;
+              person2 = randomizedListedPeople[n];
+
+              if (person2 == person1) {
+
+                if (n >= (randomizedListedPeople.length - 1)) {
+                  n = 0;
+                } else {
+                  n++;
+                }
+                iterations++;
+
+              } else if (Object.values(vectors).includes(person2['id'])) {
+
+                if (n >= (randomizedListedPeople.length - 1)) {
+                  n = 0;
+                } else {
+                  n++;
+                }
+                iterations++;
+
+              } else {
+
+                for (const listedExclusion of listedExclusions) {
+
+                  if (listedExclusion['from'] == person1['id'] && listedExclusion['to'] == person2['id']) {
+
+                    excluded = true;
+                    break;
+
+                  }
+                }
+
+                if (excluded) {
+
+                  if (n >= (randomizedListedPeople.length - 1)) {
+                    n = 0;
+                  } else {
+                    n++;
+                  }
+                  iterations++;
+
+                } else {
+
+                  vectors[person1['id']] = person2['id'];
+                  matched = true;
+
+                  vectorsNames[person1['name']] = person2['name'];
+
+                }
+              }
+            } else {
+
+              return {0: 0};
+
+            }
+          }
+        }
+      }
+
+      console.log(vectorsNames);
+
+      return vectors;
+
+    }
+
+
+    var vectors = {0: 0};
+
+    var randomizedListedPeople = {};
+
+    let maxIterations = 3;
+    let iterations = 0;
+
+    while (vectors[0] === 0 && iterations <= maxIterations) {
+      iterations++;
+      randomizedListedPeople = randomizePeople(listedPeople);
+      vectors = get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+    }
+
+    console.log(randomizedListedPeople);
+    console.log(vectors);
+
+
+
+
+
   }
 
   const confirmDeletePersonHandler = personId => {
@@ -115,13 +268,11 @@ export default function App() {
   const startInclusionHandler = (personId) => {
     setIsAddInclusionMode(true);
     setCurrentInclusion([personId]);
-    console.log(currentInclusion);
   };
   const stopInclusionHandler = (personId) => {
     setCurrentInclusion(currentPersonId => [
       ...currentPersonId, personId
     ]);
-    console.log(currentInclusion);
   };
   const confirmInclusionHandler = () => {
     setListedInclusions(currentInclusions => [
@@ -130,8 +281,6 @@ export default function App() {
     ]);
     setCurrentInclusion([]);
     setIsAddInclusionMode(false);
-    console.log(currentInclusion);
-    console.log(listedInclusions);
   };
   const cancelInclusionHandler = () => {
     setCurrentInclusion([]);
@@ -141,13 +290,11 @@ export default function App() {
   const startExclusionHandler = (personId) => {
     setIsAddExclusionMode(true);
     setCurrentExclusion([personId]);
-    console.log(currentExclusion);
   };
   const stopExclusionHandler = (personId) => {
     setCurrentExclusion(currentPersonId => [
       ...currentPersonId, personId
     ]);
-    console.log(currentExclusion);
   };
   const confirmExclusionHandler = () => {
     setListedExclusions(currentExclusions => [
@@ -156,8 +303,6 @@ export default function App() {
     ]);
     setCurrentExclusion([]);
     setIsAddExclusionMode(false);
-    console.log(currentExclusion);
-    console.log(listedExclusions);
   };
   const cancelExclusionHandler = () => {
     setCurrentExclusion([]);
