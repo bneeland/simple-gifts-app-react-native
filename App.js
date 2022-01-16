@@ -87,13 +87,6 @@ export default function App() {
   const confirmAssignHandler = () => {
     setIsAssignMode(false);
 
-
-
-
-
-
-
-
     function randomize(arrayIn) {
         let arrayOut = [];
         for(let i in arrayIn) {
@@ -215,8 +208,6 @@ export default function App() {
         }
       }
 
-      console.log(vectorsNames);
-
       return vectors;
 
     }
@@ -230,17 +221,16 @@ export default function App() {
     let iterations = 0;
 
     while (vectors[0] === 0 && iterations <= maxIterations) {
+
       iterations++;
+
       randomizedListedPeople = randomizePeople(listedPeople);
+
       vectors = get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+
     }
 
-    console.log(randomizedListedPeople);
     console.log(vectors);
-
-
-
-
 
   }
 
