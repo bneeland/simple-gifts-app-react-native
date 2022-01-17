@@ -233,7 +233,21 @@ export default function App() {
     console.log(vectors);
 
 
+
+
+
 // Nodemailer through own express backend api
+
+// From: 'info@simplegiftsapp.com',
+// To: 'brian.neeland@gmail.com',
+// Subject: 'Simple Gifts - Test 1',
+// TextBody: 'Hello, this is a test email.',
+// HtmlBody: '<b>Hello</b>, this a test email.',
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("Key1", "Value1");
+    urlencoded.append("Key2", "Value2");
+
     fetch('http://localhost:5000', {
       method: 'POST',
       // headers: {
@@ -242,13 +256,7 @@ export default function App() {
       //   'X-Postmark-Server-Token': '742b493c-99cd-499a-9c29-b0a8318cf381',
       //   'Access-Control-Allow-Origin': '*',
       // },
-      body: JSON.stringify({
-        From: 'info@simplegiftsapp.com',
-        To: 'brian.neeland@gmail.com',
-        Subject: 'Simple Gifts - Test 1',
-        TextBody: 'Hello, this is a test email.',
-        HtmlBody: '<b>Hello</b>, this a test email.',
-      }),
+      body: urlencoded,
     });
 
 // Nodemailer: Doesn't work via react native because it's front end only.
