@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 
-import emailjs from '@emailjs/browser';;
-
 import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
 import PersonDeleteConfirm from './components/PersonDeleteConfirm';
@@ -234,41 +232,138 @@ export default function App() {
 
     console.log(vectors);
 
-    fetch('https://api.emailjs.com/api/v1.0/email/send', {
+
+// Nodemailer through own express backend api
+    fetch('http://localhost:5000', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      // headers: {
+      //   'Content-Type': 'application/json',
+      //   'Accept': 'application/json',
+      //   'X-Postmark-Server-Token': '742b493c-99cd-499a-9c29-b0a8318cf381',
+      //   'Access-Control-Allow-Origin': '*',
+      // },
       body: JSON.stringify({
-        service_id: 'service_nbnolct',
-        template_id: 'template_9c542q8',
-        user_id: 'user_dDwrcQ642rbj3GiInsw2h',
-        template_params: {
-          'subject': 'Test subject',
-          'message': 'Test message',
-          'to_email': 'brian.neeland@gmail.com',
-          'from_email': 'info@simplegiftsapp.com'
-        },
+        From: 'info@simplegiftsapp.com',
+        To: 'brian.neeland@gmail.com',
+        Subject: 'Simple Gifts - Test 1',
+        TextBody: 'Hello, this is a test email.',
+        HtmlBody: '<b>Hello</b>, this a test email.',
       }),
     });
 
-    // emailjs.send(
-    //   'service_nbnolct',
-    //   'template_9c542q8',
-    //   {
-    //     subject: "Test subject",
-    //     message: "Test message",
-    //     to_email: "brian.neeland@gmail.com",
+// Nodemailer: Doesn't work via react native because it's front end only.
+    // let transporter = nodemailer.createTransport({
+    //   host: 'smtp.postmarkapp.com',
+    //   port: 587,
+    //   secure: false, // true for 465, false for other ports
+    //   auth: {
+    //     user: '742b493c-99cd-499a-9c29-b0a8318cf381',
+    //     pass: '742b493c-99cd-499a-9c29-b0a8318cf381',
     //   },
-    //   'user_dDwrcQ642rbj3GiInsw2h',
-    // )
-    //   .then((result) => {
-    //       console.log(result.text);
-    //   }, (error) => {
-    //       console.log(error.text);
-    //   });
+    //   tls:{
+    //     rejectUnauthorized: false,
+    //   }
+    // });
+    //
+    // let mailOptions = {
+    //   from: '"Simple Gifts app" <info@simplegiftsapp.com>',
+    //   to: 'brian.neeland@gmail.com',
+    //   subject: 'Simple Gifts app - Test 1',
+    //   text: 'Hello, this is a test email.',
+    //   html: '<b>Hello</b>, this a test email.',
+    // };
+    //
+    // transporter.sendMail(mailOptions, (error, info) => {
+    //   if (error) {
+    //       return console.log(error);
+    //   }
+    //   console.log('Message sent: %s', info.messageId);
+    //   console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    //
+    //   res.render('contact', {msg:'Email has been sent'});
+    // });
 
-  }
+// POSTMARK NODE.JS LIBRARY: DOESN'T WORK BECAUSE OF 'Cross-Origin Request Blocked' ERROR
+    // // Require:
+    // var postmark = require("postmark");
+    //
+    // // Send an email:
+    // var client = new postmark.ServerClient("742b493c-99cd-499a-9c29-b0a8318cf381");
+    //
+    // client.sendEmail({
+    //   "From": "info@simplegiftsapp.com",
+    //   "To": "brian.neeland@gmail.com",
+    //   "Subject": "Hello from Postmark",
+    //   "HtmlBody": "<strong>Hello</strong> dear Postmark user.",
+    //   "TextBody": "Hello from Postmark!",
+    //   "MessageStream": "outbound"
+    // });
+
+// POSTMARK API: DOESN'T WORK BECAUSE OF 'Cross-Origin Request Blocked' ERROR
+    // fetch('https://api.postmarkapp.com/email', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Accept': 'application/json',
+    //     'X-Postmark-Server-Token': '742b493c-99cd-499a-9c29-b0a8318cf381',
+    //     'Access-Control-Allow-Origin': '*',
+    //   },
+    //   body: JSON.stringify({
+    //     service_id: 'service_nbnolct',
+    //     template_id: 'template_9c542q8',
+    //     user_id: 'user_dDwrcQ642rbj3GiInsw2h',
+    //     template_params: {
+    //       'From': 'info@simplegiftsapp.com',
+    //       'To': 'brian.neeland@gmail.com',
+    //       'Subject': 'Simple Gifts - Test 1',
+    //       'TextBody': 'Hello, this is a test email.',
+    //       'HtmlBody': '<b>Hello</b>, this a test email.',
+    //       'MessageStream': 'outbound'
+    //     },
+    //   }),
+    // });
+
+
+// EMAILJS: WORKS, BUT ONLY FROM WEB. FROM ANDROID RETURNS ERROR SAYING IT'S BLOCKED FROM MOBILE.
+    // fetch('https://api.emailjs.com/api/v1.0/email/send', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     service_id: 'service_nbnolct',
+    //     template_id: 'template_9c542q8',
+    //     user_id: 'user_dDwrcQ642rbj3GiInsw2h',
+    //     template_params: {
+    //       'subject': 'Test subject',
+    //       'message': 'Test message',
+    //       'to_email': 'brian.neeland@gmail.com',
+    //       'from_email': 'info@simplegiftsapp.com'
+    //     },
+    //   }),
+    // });
+
+// EMAILJS: WORKS, BUT ONLY FROM WEB. FROM ANDROID RETURNS ERROR SAYING IT'S BLOCKED FROM MOBILE.
+    // var templateParams = {
+    //   subject: 'Test subject 3',
+    //   message: 'Test message 3',
+    //   to_email: 'brian.neeland@gmail.com',
+    //   from_email: 'info@simplegiftsapp.com',
+    // };
+    //
+    // emailjs.send('service_nbnolct', 'template_9c542q8', templateParams, 'user_dDwrcQ642rbj3GiInsw2h')
+    //   .then(function(response) {
+    //     console.log('SUCCESS!', response.status, response.text);
+    //   }, function(error) {
+    //     console.log('FAILED...', error);
+    // });
+
+
+
+
+
+
+  };
 
   const confirmDeletePersonHandler = personId => {
     setListedPeople(currentPeople => {
