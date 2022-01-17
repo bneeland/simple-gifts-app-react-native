@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 
+import emailjs from '@emailjs/browser';;
+
 import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
 import PersonDeleteConfirm from './components/PersonDeleteConfirm';
@@ -231,6 +233,40 @@ export default function App() {
     }
 
     console.log(vectors);
+
+    fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        service_id: 'service_nbnolct',
+        template_id: 'template_9c542q8',
+        user_id: 'user_dDwrcQ642rbj3GiInsw2h',
+        template_params: {
+          'subject': 'Test subject',
+          'message': 'Test message',
+          'to_email': 'brian.neeland@gmail.com',
+          'from_email': 'info@simplegiftsapp.com'
+        },
+      }),
+    });
+
+    // emailjs.send(
+    //   'service_nbnolct',
+    //   'template_9c542q8',
+    //   {
+    //     subject: "Test subject",
+    //     message: "Test message",
+    //     to_email: "brian.neeland@gmail.com",
+    //   },
+    //   'user_dDwrcQ642rbj3GiInsw2h',
+    // )
+    //   .then((result) => {
+    //       console.log(result.text);
+    //   }, (error) => {
+    //       console.log(error.text);
+    //   });
 
   }
 
