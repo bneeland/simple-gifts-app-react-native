@@ -5,6 +5,7 @@ import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
 import PersonDeleteConfirm from './components/PersonDeleteConfirm';
 import InclusionDeleteConfirm from './components/InclusionDeleteConfirm';
+import InclusionAddConfirm from './components/InclusionAddConfirm';
 import ExclusionDeleteConfirm from './components/ExclusionDeleteConfirm';
 
 import InclusionItem from './components/InclusionItem';
@@ -29,6 +30,7 @@ export default function App() {
   const [isAddInclusionMode, setIsAddInclusionMode] = useState(false);
   const [currentInclusion, setCurrentInclusion] = useState([]);
   const [listedInclusions, setListedInclusions] = useState([]);
+  const [isConfirmInclusionMode, setIsConfirmInclusionMode] = useState(false);
 
   const [isAddExclusionMode, setIsAddExclusionMode] = useState(false);
   const [currentExclusion, setCurrentExclusion] = useState([]);
@@ -300,6 +302,8 @@ export default function App() {
     setCurrentInclusion(currentPersonId => [
       ...currentPersonId, personId
     ]);
+    setIsAddInclusionMode(false);
+    setIsConfirmInclusionMode(true);
   };
   const confirmInclusionHandler = () => {
     setListedInclusions(currentInclusions => [
@@ -307,11 +311,11 @@ export default function App() {
       { id: Math.random()*Math.pow(10,18).toString(), from: currentInclusion[0], to: currentInclusion[1] }
     ]);
     setCurrentInclusion([]);
-    setIsAddInclusionMode(false);
+    setIsConfirmInclusionMode(false);
   };
   const cancelInclusionHandler = () => {
     setCurrentInclusion([]);
-    setIsAddInclusionMode(false);
+    setIsConfirmInclusionMode(false);
   };
 
   const startExclusionHandler = (personId) => {
@@ -355,12 +359,11 @@ export default function App() {
               onDelete={deletePersonHandler}
               onStartInclusion={startInclusionHandler}
               onStopInclusion={stopInclusionHandler}
-              onConfirmInclusion={confirmInclusionHandler}
-              onCancelInclusion={cancelInclusionHandler}
               onStartExclusion={startExclusionHandler}
               onStopExclusion={stopExclusionHandler}
               onConfirmExclusion={confirmExclusionHandler}
               onCancelExclusion={cancelExclusionHandler}
+              isAddInclusionMode={isAddInclusionMode}
             />
           )}
         />
@@ -409,6 +412,11 @@ export default function App() {
         personToDelete={personToDelete}
         onDeleteConfirm={confirmDeletePersonHandler}
         onCancel={cancelDeletePersonHandler}
+      />
+      <InclusionAddConfirm
+        visible={isConfirmInclusionMode}
+        onConfirm={confirmInclusionHandler}
+        onCancel={cancelInclusionHandler}
       />
       <InclusionDeleteConfirm
         visible={isDeleteInclusionMode}
