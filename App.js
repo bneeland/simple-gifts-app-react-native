@@ -533,12 +533,12 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   inclusionsContainer: {
-    flex: 5,
+    flex: 3,
     backgroundColor: 'oldlace',
     padding: 8,
   },
   exclusionsContainer: {
-    flex: 5,
+    flex: 3,
     backgroundColor: 'papayawhip',
     padding: 8,
   },

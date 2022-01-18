@@ -26,8 +26,8 @@ const PersonItem = props => {
           ) : null
         }
         {
-          (props.isAddInclusionMode && props.currentInclusion != props.id) ? (
-            <View style={styles.ruleButtonContainer}><Button title="Select" onPress={props.onStopInclusion.bind(this, props.id)} /></View>
+          (props.isAddInclusionMode) ? (
+            <View style={styles.ruleButtonContainer}><Button title="Select" disabled={props.currentInclusion != props.id ? false : true} onPress={props.onStopInclusion.bind(this, props.id)} /></View>
           ) : null
         }
         {
@@ -36,8 +36,8 @@ const PersonItem = props => {
           ) : null
         }
         {
-          (props.isAddExclusionMode && props.currentExclusion != props.id) ? (
-            <View style={styles.ruleButtonContainer}><Button title="Select" onPress={props.onStopExclusion.bind(this, props.id)} /></View>
+          (props.isAddExclusionMode) ? (
+            <View style={styles.ruleButtonContainer}><Button title="Select" disabled={props.currentExclusion != props.id ? false : true} onPress={props.onStopExclusion.bind(this, props.id)} /></View>
           ) : null
         }
       </View>
