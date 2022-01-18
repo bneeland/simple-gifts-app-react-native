@@ -357,7 +357,21 @@ export default function App() {
   return (
     <View style={styles.screen}>
       <View style={styles.peopleContainer}>
-        <Button title="Add person" onPress={() => setIsAddPersonMode(true)} />
+        {
+          isAddInclusionMode ? (
+            <Button title="Cancel rule-making" onPress={cancelInclusionHandler} />
+          ) : null
+        }
+        {
+          isAddExclusionMode ? (
+            <Button title="Cancel rule-making" onPress={cancelExclusionHandler} />
+          ) : null
+        }
+        {
+          (!isAddInclusionMode && !isAddExclusionMode) ? (
+            <Button title="Add person" onPress={() => setIsAddPersonMode(true)} />
+          ) : null
+        }
         <FlatList
           keyExtractor={(item, index) => item.id}
           data={listedPeople}
