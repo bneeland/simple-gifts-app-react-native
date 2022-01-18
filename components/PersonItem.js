@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, TouchableNativeFeedback, Button } from 'react-n
 
 const PersonItem = props => {
   return (
-    <TouchableNativeFeedback>
       <View>
         <Text>{props.name}</Text>
         <Text>{props.email}</Text>
@@ -29,7 +28,6 @@ const PersonItem = props => {
           ) : null
         }
       </View>
-    </TouchableNativeFeedback>
   );
 };
 
