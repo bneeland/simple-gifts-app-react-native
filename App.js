@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList, Alert } from 'react-native';
 
 import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
@@ -228,49 +228,70 @@ export default function App() {
 
       iterations++;
 
-      randomizedListedPeople = randomizePeople(listedPeople);
+      try {
+        randomizedListedPeople = randomizePeople(listedPeople);
+      } catch(error) {
+        console.log('Error in randomzing people:', error);
+        Alert.alert('Hang on...', 'There seems to be an issue with your inputs.\n\nMaybe check them to make sure they make sense and try this button again.', [
+          {text: 'Go back'}
+        ]);
+      }
 
-      vectors = get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+      try {
+        vectors = get_vectors(randomizedListedPeople, listedInclusions, listedExclusions);
+      } catch(error) {
+        console.log('Error in assigning people:', error);
+        Alert.alert('Hang on...', 'There seems to be an issue with your inputs.\n\nMaybe check them to make sure they make sense and try this button again.', [
+          {text: 'Go back'}
+        ]);
+      }
 
     }
 
-    for (let giverId in vectors) {
-      let receiverId = vectors[giverId];
-      let giver = listedPeople.find(person => person.id == giverId);
-      let receiver = listedPeople.find(person => person.id == receiverId);
+    try {
+      for (let giverId in vectors) {
+        let receiverId = vectors[giverId];
+        let giver = listedPeople.find(person => person.id == giverId);
+        let receiver = listedPeople.find(person => person.id == receiverId);
 
-      let giverEmail = giver['email'];
-      let giverName = giver['name'];
-      let receiverName = receiver['name'];
+        let giverEmail = giver['email'];
+        let giverName = giver['name'];
+        let receiverName = receiver['name'];
 
-      // EmailJS from Postman javascript fetch output (from react-native-requests test project)
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
+        // EmailJS from Postman javascript fetch output (from react-native-requests test project)
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
 
-      var raw = JSON.stringify({
-        "service_id": "service_su87f99",
-        "template_id": "template_9c542q8",
-        "user_id": "user_dDwrcQ642rbj3GiInsw2h",
-        "template_params": {
-          "subject": "Test subject",
-          "message": `Hello ${giver['name']}, The person you will give a gift to is ${receiver['name']}.`,
-          "to_email": giver['email'],
-          "from_email": "info@simplegiftsapp.com"
-        },
-        "accessToken": "84d6aee92283c6be025714a940ced917",
-      });
+        var raw = JSON.stringify({
+          "service_id": "service_su87f99",
+          "template_id": "template_9c542q8",
+          "user_id": "user_dDwrcQ642rbj3GiInsw2h",
+          "template_params": {
+            "subject": "Test subject",
+            "message": `Hello ${giver['name']}, The person you will give a gift to is ${receiver['name']}.`,
+            "to_email": giver['email'],
+            "from_email": "info@simplegiftsapp.com"
+          },
+          "accessToken": "84d6aee92283c6be025714a940ced917",
+        });
 
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
 
-      fetch("https://api.emailjs.com/api/v1.0/email/send", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+        fetch("https://api.emailjs.com/api/v1.0/email/send", requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+      }
+    } catch(error) {
+      console.log('Error in sending emails:', error);
+      Alert.alert('Hang on...', 'There seems to be an issue with your inputs.\n\nMaybe check them to make sure they make sense and try this button again.', [
+        {text: 'Go back'}
+      ]);
     }
 
   };
