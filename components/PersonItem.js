@@ -18,10 +18,16 @@ const PersonItem = props => {
             <Button title="Select for inclusion" onPress={props.onStopInclusion.bind(this, props.id)} />
           ) : null
         }
-        <Button title="Must not give to..." onPress={props.onStartExclusion.bind(this, props.id)} />
-        <Button title="Select for exclusion" onPress={props.onStopExclusion.bind(this, props.id)} />
-        <Button title="Confirm exclusion" onPress={props.onConfirmExclusion} />
-        <Button title="Cancel exclusion" onPress={props.onCancelExclusion} />
+        {
+          !props.isAddExclusionMode ? (
+            <Button title="Must not give to..." onPress={props.onStartExclusion.bind(this, props.id)} />
+          ) : null
+        }
+        {
+          props.isAddExclusionMode ? (
+            <Button title="Select for exclusion" onPress={props.onStopExclusion.bind(this, props.id)} />
+          ) : null
+        }
       </View>
     </TouchableNativeFeedback>
   );

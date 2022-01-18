@@ -4,8 +4,9 @@ import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
 import PersonDeleteConfirm from './components/PersonDeleteConfirm';
-import InclusionDeleteConfirm from './components/InclusionDeleteConfirm';
 import InclusionAddConfirm from './components/InclusionAddConfirm';
+import InclusionDeleteConfirm from './components/InclusionDeleteConfirm';
+import ExclusionAddConfirm from './components/ExclusionAddConfirm';
 import ExclusionDeleteConfirm from './components/ExclusionDeleteConfirm';
 
 import InclusionItem from './components/InclusionItem';
@@ -35,6 +36,7 @@ export default function App() {
   const [isAddExclusionMode, setIsAddExclusionMode] = useState(false);
   const [currentExclusion, setCurrentExclusion] = useState([]);
   const [listedExclusions, setListedExclusions] = useState([]);
+  const [isConfirmExclusionMode, setIsConfirmExclusionMode] = useState(false);
 
   const cancelAddPersonHandler = () => {
     setIsAddPersonMode(false);
@@ -297,6 +299,8 @@ export default function App() {
   const startInclusionHandler = (personId) => {
     setIsAddInclusionMode(true);
     setCurrentInclusion([personId]);
+    setIsAddExclusionMode(false);
+    setCurrentExclusion([]);
   };
   const stopInclusionHandler = (personId) => {
     setCurrentInclusion(currentPersonId => [
@@ -321,11 +325,15 @@ export default function App() {
   const startExclusionHandler = (personId) => {
     setIsAddExclusionMode(true);
     setCurrentExclusion([personId]);
+    setIsAddInclusionMode(false);
+    setCurrentInclusion([]);
   };
   const stopExclusionHandler = (personId) => {
     setCurrentExclusion(currentPersonId => [
       ...currentPersonId, personId
     ]);
+    setIsAddExclusionMode(false);
+    setIsConfirmExclusionMode(true);
   };
   const confirmExclusionHandler = () => {
     setListedExclusions(currentExclusions => [
@@ -333,11 +341,11 @@ export default function App() {
       { id: Math.random()*Math.pow(10,18).toString(), from: currentExclusion[0], to: currentExclusion[1] }
     ]);
     setCurrentExclusion([]);
-    setIsAddExclusionMode(false);
+    setIsConfirmExclusionMode(false);
   };
   const cancelExclusionHandler = () => {
     setCurrentExclusion([]);
-    setIsAddExclusionMode(false);
+    setIsConfirmExclusionMode(false);
   };
 
   const getPersonItemName = (personId) => {
@@ -359,11 +367,10 @@ export default function App() {
               onDelete={deletePersonHandler}
               onStartInclusion={startInclusionHandler}
               onStopInclusion={stopInclusionHandler}
+              isAddInclusionMode={isAddInclusionMode}
               onStartExclusion={startExclusionHandler}
               onStopExclusion={stopExclusionHandler}
-              onConfirmExclusion={confirmExclusionHandler}
-              onCancelExclusion={cancelExclusionHandler}
-              isAddInclusionMode={isAddInclusionMode}
+              isAddExclusionMode={isAddExclusionMode}
             />
           )}
         />
@@ -423,6 +430,11 @@ export default function App() {
         inclusionToDelete={inclusionToDelete}
         onDeleteConfirm={confirmDeleteInclusionHandler}
         onCancel={cancelDeleteInclusionHandler}
+      />
+      <ExclusionAddConfirm
+        visible={isConfirmExclusionMode}
+        onConfirm={confirmExclusionHandler}
+        onCancel={cancelExclusionHandler}
       />
       <ExclusionDeleteConfirm
         visible={isDeleteExclusionMode}
