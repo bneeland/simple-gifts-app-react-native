@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, FlatList, Alert } from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList, Alert, Pressable } from 'react-native';
 
 import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
@@ -37,6 +37,8 @@ export default function App() {
   const [currentExclusion, setCurrentExclusion] = useState([]);
   const [listedExclusions, setListedExclusions] = useState([]);
   const [isConfirmExclusionMode, setIsConfirmExclusionMode] = useState(false);
+
+  const [isRulesToggleOpen, setIsRulesToggleOpen] = useState(false);
 
   const cancelAddPersonHandler = () => {
     setIsAddPersonMode(false);
@@ -375,10 +377,18 @@ export default function App() {
     return listedPeople.find(el => (el.id === personId)).name;
   };
 
+  const toggleRulesHandler= () => {
+    if (isRulesToggleOpen) {
+      setIsRulesToggleOpen(false);
+    } else {
+      setIsRulesToggleOpen(true);
+    }
+  };
+
   return (
     <View style={styles.screen}>
       <View style={styles.standaloneContainer}>
-        <Text>People</Text>
+        <Text style={styles.heading}>People</Text>
       </View>
       <View style={styles.peopleContainer}>
         {
@@ -417,42 +427,50 @@ export default function App() {
           )}
         />
       </View>
-      <View style={styles.standaloneContainer}>
-        <Text>Rules</Text>
-      </View>
-      <View style={styles.inclusionsContainer}>
-        <Text>Must give to...</Text>
-        <FlatList
-          keyExtractor={(item, index) => item.id}
-          data={listedInclusions}
-          renderItem={itemData => (
-            <InclusionItem
-              from={getPersonItemName(itemData.item.from)}
-              to={getPersonItemName(itemData.item.to)}
-              id={itemData.item.id}
-              onDelete={deleteInclusionHandler}
-            />
-          )}
-        />
-      </View>
-      <View style={styles.exclusionsContainer}>
-        <Text>Mustn't give to...</Text>
-        <FlatList
-          keyExtractor={(item, index) => item.id}
-          data={listedExclusions}
-          renderItem={itemData => (
-            <ExclusionItem
-              from={getPersonItemName(itemData.item.from)}
-              to={getPersonItemName(itemData.item.to)}
-              id={itemData.item.id}
-              onDelete={deleteExclusionHandler}
-            />
-          )}
-        />
+      <View style={[styles.standaloneContainer, styles.rulesHeader]}>
+        <Pressable onPress={toggleRulesHandler}>
+          <Text style={styles.heading}>Rules</Text>
+        </Pressable>
       </View>
       {
+        (isRulesToggleOpen) ? (
+          <>
+          <View style={styles.inclusionsContainer}>
+            <Text style={styles.subheading}>Must give to…</Text>
+            <FlatList
+              keyExtractor={(item, index) => item.id}
+              data={listedInclusions}
+              renderItem={itemData => (
+                <InclusionItem
+                  from={getPersonItemName(itemData.item.from)}
+                  to={getPersonItemName(itemData.item.to)}
+                  id={itemData.item.id}
+                  onDelete={deleteInclusionHandler}
+                />
+              )}
+            />
+          </View>
+          <View style={styles.exclusionsContainer}>
+            <Text style={styles.subheading}>Mustn't give to…</Text>
+            <FlatList
+              keyExtractor={(item, index) => item.id}
+              data={listedExclusions}
+              renderItem={itemData => (
+                <ExclusionItem
+                  from={getPersonItemName(itemData.item.from)}
+                  to={getPersonItemName(itemData.item.to)}
+                  id={itemData.item.id}
+                  onDelete={deleteExclusionHandler}
+                />
+              )}
+            />
+          </View>
+          </>
+        ) : null
+      }
+      {
         (Object.keys(listedPeople).length >= 3) ? (
-          <View style={styles.standaloneContainer}>
+          <View style={[styles.standaloneContainer, styles.finalizeHeader]}>
             <AssignButton
               onAssign={assignHandler}
             />
@@ -507,25 +525,42 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 16+8,
     paddingBottom: 8,
-    // backgroundColor: 'navajowhite',
+    backgroundColor: 'navajowhite',
   },
   peopleContainer: {
     flex: 5,
-    // backgroundColor: 'lightgoldenrodyellow',
+    backgroundColor: 'lightgoldenrodyellow',
     padding: 8,
   },
   inclusionsContainer: {
-    flex: 1,
-    // backgroundColor: 'oldlace',
+    flex: 5,
+    backgroundColor: 'oldlace',
     padding: 8,
   },
   exclusionsContainer: {
-    flex: 1,
-    // backgroundColor: 'papayawhip',
+    flex: 5,
+    backgroundColor: 'papayawhip',
     padding: 8,
   },
   standaloneContainer: {
-    // backgroundColor: 'papayawhip',
+    backgroundColor: 'papayawhip',
     padding: 8,
   },
+  rulesHeader: {
+    borderTopWidth: 1,
+    borderColor: 'lightgrey',
+  },
+  finalizeHeader: {
+    borderTopWidth: 1,
+    borderColor: 'lightgrey',
+  },
+  heading: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  subheading: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  }
 });

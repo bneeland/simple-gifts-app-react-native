@@ -13,7 +13,7 @@ const PersonItem = props => {
         }
         {
           (!props.isAddInclusionMode && !props.isAddExclusionMode) ? (
-            <Button title="Must give to..." onPress={props.onStartInclusion.bind(this, props.id)} />
+            <Button title="Must give to…" onPress={props.onStartInclusion.bind(this, props.id)} />
           ) : null
         }
         {
@@ -23,7 +23,7 @@ const PersonItem = props => {
         }
         {
           (!props.isAddExclusionMode && !props.isAddInclusionMode) ? (
-            <Button title="Mustn't give to..." onPress={props.onStartExclusion.bind(this, props.id)} />
+            <Button title="Mustn't give to…" onPress={props.onStartExclusion.bind(this, props.id)} />
           ) : null
         }
         {
