@@ -230,230 +230,44 @@ export default function App() {
 
     }
 
-    console.log(vectors);
+    for (let giverId in vectors) {
+      let receiverId = vectors[giverId];
+      let giver = listedPeople.find(person => person.id == giverId);
+      let receiver = listedPeople.find(person => person.id == receiverId);
 
+      let giverEmail = giver['email'];
+      let giverName = giver['name'];
+      let receiverName = receiver['name'];
 
+      // EmailJS from Postman javascript fetch output (from react-native-requests test project)
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
 
-// EmailJS from Postman javascript fetch output (from react-native-requests test project)
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+      var raw = JSON.stringify({
+        "service_id": "service_su87f99",
+        "template_id": "template_9c542q8",
+        "user_id": "user_dDwrcQ642rbj3GiInsw2h",
+        "template_params": {
+          "subject": "Test subject",
+          "message": `Hello ${giver['name']}, The person you will give a gift to is ${receiver['name']}.`,
+          "to_email": giver['email'],
+          "from_email": "info@simplegiftsapp.com"
+        },
+        "accessToken": "84d6aee92283c6be025714a940ced917",
+      });
 
-    var raw = JSON.stringify({
-      "service_id": "service_su87f99",
-      "template_id": "template_9c542q8",
-      "user_id": "user_dDwrcQ642rbj3GiInsw2h",
-      "template_params": {
-        "subject": "Test subject",
-        "message": "Test message",
-        "to_email": "brian.neeland@gmail.com",
-        "from_email": "info@simplegiftsapp.com"
-      },
-      "accessToken": "84d6aee92283c6be025714a940ced917",
-    });
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
 
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-
-    fetch("https://api.emailjs.com/api/v1.0/email/send", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-
-
-
-
-
-// Nodemailer through own express backend api
-
-// from: 'info@simplegiftsapp.com',
-// to: 'brian.neeland@gmail.com',
-// subject: 'Simple Gifts - Test 1',
-// text: 'Hello, this is a test email.',
-// html: '<b>Hello</b>, this a test email.',
-
-    // var urlencoded = new URLSearchParams();
-    // urlencoded.append("from", "Simple Gifts app <info@simplegiftsapp.com>");
-    // urlencoded.append("to", "brian.neeland@gmail.com");
-    // urlencoded.append("subject", "Simple Gifts - Test 0");
-    // urlencoded.append("text", "Hello, this is a test email.");
-    // urlencoded.append("html", "<b>Hello</b>, this a test email.");
-    //
-    // try {
-    //   fetch('http://localhost:5000', {
-    //     method: 'POST',
-    //     // headers: {
-    //     //   'Content-Type': 'application/json',
-    //     // },
-    //     // headers: {
-    //     //   'Content-Type': 'application/json',
-    //     //   'Accept': 'application/json',
-    //     //   'X-Postmark-Server-Token': '742b493c-99cd-499a-9c29-b0a8318cf381',
-    //     //   'Access-Control-Allow-Origin': '*',
-    //     // },
-    //     body: urlencoded,
-    //     // body: {
-    //     //   "from":"info@simplegiftsapp.com",
-    //     //   "to":"brian.neeland@gmail.com"
-    //     // },
-    //   });
-    // } catch (error) {
-    //   console.error(error);
-    // }
-
-// WORKS WITH WEB, AND REQUEST GOEST THROUGH WITHOUT ERRORS IN ANDROID, BUT THERE'S NO POST DATA!
-    // fetch('http://192.168.1.67:5000', {
-    //   method: 'POST',
-    //   // headers: {
-    //   //   'Content-Type': 'application/json',
-    //   // },
-    //   // headers: {
-    //   //   'Content-Type': 'application/json',
-    //   //   'Accept': 'application/json',
-    //   //   'X-Postmark-Server-Token': '742b493c-99cd-499a-9c29-b0a8318cf381',
-    //   //   'Access-Control-Allow-Origin': '*',
-    //   // },
-    //   body: urlencoded,
-    //   // body: {
-    //   //   "from":"info@simplegiftsapp.com",
-    //   //   "to":"brian.neeland@gmail.com"
-    //   // },
-    // }).then(response => {
-    //   console.log('Post request done');
-    // }).catch(error => {
-    //   console.error(error.message);
-    // });
-
-    // fetch('http://10.0.2.2:5000').then(response => {
-    //   if (response.status == 200) {
-    //     console.log(response.text());
-    //   } else {
-    //     throw new Error('Request failed.');
-    //   }
-    // }).then(responseText => {
-    //   console.log(responseText);
-    // }).catch(error => {
-    //   console.error(error.message);
-    // });
-
-// Nodemailer: Doesn't work via react native because it's front end only.
-    // let transporter = nodemailer.createTransport({
-    //   host: 'smtp.postmarkapp.com',
-    //   port: 587,
-    //   secure: false, // true for 465, false for other ports
-    //   auth: {
-    //     user: '742b493c-99cd-499a-9c29-b0a8318cf381',
-    //     pass: '742b493c-99cd-499a-9c29-b0a8318cf381',
-    //   },
-    //   tls:{
-    //     rejectUnauthorized: false,
-    //   }
-    // });
-    //
-    // let mailOptions = {
-    //   from: '"Simple Gifts app" <info@simplegiftsapp.com>',
-    //   to: 'brian.neeland@gmail.com',
-    //   subject: 'Simple Gifts app - Test 1',
-    //   text: 'Hello, this is a test email.',
-    //   html: '<b>Hello</b>, this a test email.',
-    // };
-    //
-    // transporter.sendMail(mailOptions, (error, info) => {
-    //   if (error) {
-    //       return console.log(error);
-    //   }
-    //   console.log('Message sent: %s', info.messageId);
-    //   console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-    //
-    //   res.render('contact', {msg:'Email has been sent'});
-    // });
-
-// POSTMARK NODE.JS LIBRARY: DOESN'T WORK BECAUSE OF 'Cross-Origin Request Blocked' ERROR
-    // // Require:
-    // var postmark = require("postmark");
-    //
-    // // Send an email:
-    // var client = new postmark.ServerClient("742b493c-99cd-499a-9c29-b0a8318cf381");
-    //
-    // client.sendEmail({
-    //   "From": "info@simplegiftsapp.com",
-    //   "To": "brian.neeland@gmail.com",
-    //   "Subject": "Hello from Postmark",
-    //   "HtmlBody": "<strong>Hello</strong> dear Postmark user.",
-    //   "TextBody": "Hello from Postmark!",
-    //   "MessageStream": "outbound"
-    // });
-
-// POSTMARK API: DOESN'T WORK BECAUSE OF 'Cross-Origin Request Blocked' ERROR
-    // fetch('https://api.postmarkapp.com/email', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json',
-    //     'X-Postmark-Server-Token': '742b493c-99cd-499a-9c29-b0a8318cf381',
-    //     'Access-Control-Allow-Origin': '*',
-    //   },
-    //   body: JSON.stringify({
-    //     service_id: 'service_nbnolct',
-    //     template_id: 'template_9c542q8',
-    //     user_id: 'user_dDwrcQ642rbj3GiInsw2h',
-    //     template_params: {
-    //       'From': 'info@simplegiftsapp.com',
-    //       'To': 'brian.neeland@gmail.com',
-    //       'Subject': 'Simple Gifts - Test 1',
-    //       'TextBody': 'Hello, this is a test email.',
-    //       'HtmlBody': '<b>Hello</b>, this a test email.',
-    //       'MessageStream': 'outbound'
-    //     },
-    //   }),
-    // });
-
-
-// EMAILJS: WORKS, BUT ONLY FROM WEB. FROM ANDROID RETURNS ERROR SAYING IT'S BLOCKED FROM MOBILE.
-    // fetch('https://api.emailjs.com/api/v1.0/email/send', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     service_id: 'service_su87f99',
-    //     template_id: 'template_9c542q8',
-    //     user_id: 'user_dDwrcQ642rbj3GiInsw2h',
-    //     template_params: {
-    //       'subject': 'Test subject',
-    //       'message': 'Test message',
-    //       'to_email': 'brian.neeland@gmail.com',
-    //       'from_email': 'info@simplegiftsapp.com'
-    //     },
-    //   }),
-    // }).then(response => {
-    //   console.log('Post request done');
-    // }).catch(error => {
-    //   console.error(error.message);
-    // });
-
-// EMAILJS: WORKS, BUT ONLY FROM WEB. FROM ANDROID RETURNS ERROR SAYING IT'S BLOCKED FROM MOBILE.
-    // var templateParams = {
-    //   subject: 'Test subject 3',
-    //   message: 'Test message 3',
-    //   to_email: 'brian.neeland@gmail.com',
-    //   from_email: 'info@simplegiftsapp.com',
-    // };
-    //
-    // emailjs.send('service_nbnolct', 'template_9c542q8', templateParams, 'user_dDwrcQ642rbj3GiInsw2h')
-    //   .then(function(response) {
-    //     console.log('SUCCESS!', response.status, response.text);
-    //   }, function(error) {
-    //     console.log('FAILED...', error);
-    // });
-
-
-
-
-
+      fetch("https://api.emailjs.com/api/v1.0/email/send", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    }
 
   };
 
