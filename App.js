@@ -306,7 +306,6 @@ export default function App() {
     setCurrentInclusion(currentPersonId => [
       ...currentPersonId, personId
     ]);
-    setIsAddInclusionMode(false);
     setIsConfirmInclusionMode(true);
   };
   const confirmInclusionHandler = () => {
@@ -314,11 +313,13 @@ export default function App() {
       ...currentInclusions,
       { id: Math.random()*Math.pow(10,18).toString(), from: currentInclusion[0], to: currentInclusion[1] }
     ]);
+    setIsAddInclusionMode(false);
     setCurrentInclusion([]);
     setIsConfirmInclusionMode(false);
   };
   const cancelInclusionHandler = () => {
     setCurrentInclusion([]);
+    setIsAddInclusionMode(false);
     setIsConfirmInclusionMode(false);
   };
 
@@ -332,7 +333,6 @@ export default function App() {
     setCurrentExclusion(currentPersonId => [
       ...currentPersonId, personId
     ]);
-    setIsAddExclusionMode(false);
     setIsConfirmExclusionMode(true);
   };
   const confirmExclusionHandler = () => {
@@ -340,11 +340,13 @@ export default function App() {
       ...currentExclusions,
       { id: Math.random()*Math.pow(10,18).toString(), from: currentExclusion[0], to: currentExclusion[1] }
     ]);
+    setIsAddExclusionMode(false);
     setCurrentExclusion([]);
     setIsConfirmExclusionMode(false);
   };
   const cancelExclusionHandler = () => {
     setCurrentExclusion([]);
+    setIsAddExclusionMode(false);
     setIsConfirmExclusionMode(false);
   };
 
@@ -354,6 +356,7 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
+      <Text>Current inclusion: {currentInclusion[0]}</Text>
       <View style={styles.peopleContainer}>
         <Button title="Add person" onPress={() => setIsAddPersonMode(true)} />
         <FlatList
@@ -368,9 +371,11 @@ export default function App() {
               onStartInclusion={startInclusionHandler}
               onStopInclusion={stopInclusionHandler}
               isAddInclusionMode={isAddInclusionMode}
+              currentInclusion={currentInclusion[0]}
               onStartExclusion={startExclusionHandler}
               onStopExclusion={stopExclusionHandler}
               isAddExclusionMode={isAddExclusionMode}
+              currentExclusion={currentExclusion[0]}
             />
           )}
         />
