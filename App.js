@@ -356,6 +356,12 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
+      <View style={styles.standaloneContainer}>
+        <Text>Simple Gifts</Text>
+      </View>
+      <View style={styles.standaloneContainer}>
+        <Text>People</Text>
+      </View>
       <View style={styles.peopleContainer}>
         {
           isAddInclusionMode ? (
@@ -393,7 +399,11 @@ export default function App() {
           )}
         />
       </View>
+      <View style={styles.standaloneContainer}>
+        <Text>Rules</Text>
+      </View>
       <View style={styles.inclusionsContainer}>
+        <Text>Must give to...</Text>
         <FlatList
           keyExtractor={(item, index) => item.id}
           data={listedInclusions}
@@ -408,6 +418,7 @@ export default function App() {
         />
       </View>
       <View style={styles.exclusionsContainer}>
+        <Text>Must not give to...</Text>
         <FlatList
           keyExtractor={(item, index) => item.id}
           data={listedExclusions}
@@ -421,7 +432,7 @@ export default function App() {
           )}
         />
       </View>
-      <View>
+      <View style={styles.standaloneContainer}>
         <AssignButton
           onAssign={assignHandler}
         />
@@ -472,24 +483,27 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    paddingTop: 24,
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    backgroundColor: 'navajowhite',
+    paddingTop: 16+8,
+    paddingBottom: 8,
+    // backgroundColor: 'navajowhite',
   },
   peopleContainer: {
     flex: 5,
-    backgroundColor: 'lightgoldenrodyellow',
-    paddingTop: 16,
+    // backgroundColor: 'lightgoldenrodyellow',
+    padding: 8,
   },
   inclusionsContainer: {
     flex: 1,
-    backgroundColor: 'oldlace',
-    paddingTop: 16,
+    // backgroundColor: 'oldlace',
+    padding: 8,
   },
   exclusionsContainer: {
     flex: 1,
-    backgroundColor: 'papayawhip',
-    paddingTop: 16,
+    // backgroundColor: 'papayawhip',
+    padding: 8,
+  },
+  standaloneContainer: {
+    // backgroundColor: 'papayawhip',
+    padding: 8,
   },
 });
