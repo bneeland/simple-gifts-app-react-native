@@ -453,11 +453,15 @@ export default function App() {
           )}
         />
       </View>
-      <View style={styles.standaloneContainer}>
-        <AssignButton
-          onAssign={assignHandler}
-        />
-      </View>
+      {
+        (Object.keys(listedPeople).length >= 3) ? (
+          <View style={styles.standaloneContainer}>
+            <AssignButton
+              onAssign={assignHandler}
+            />
+          </View>
+        ) : null
+      }
 
       <PersonAddInput
         visible={isAddPersonMode}
