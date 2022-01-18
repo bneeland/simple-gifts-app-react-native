@@ -18,17 +18,17 @@ const PersonItem = props => {
         }
         {
           (props.isAddInclusionMode && props.currentInclusion != props.id) ? (
-            <Button title="...this person" onPress={props.onStopInclusion.bind(this, props.id)} />
+            <Button title="Select" onPress={props.onStopInclusion.bind(this, props.id)} />
           ) : null
         }
         {
           (!props.isAddExclusionMode && !props.isAddInclusionMode) ? (
-            <Button title="Must not give to..." onPress={props.onStartExclusion.bind(this, props.id)} />
+            <Button title="Mustn't give to..." onPress={props.onStartExclusion.bind(this, props.id)} />
           ) : null
         }
         {
           (props.isAddExclusionMode && props.currentExclusion != props.id) ? (
-            <Button title="...this person" onPress={props.onStopExclusion.bind(this, props.id)} />
+            <Button title="Select" onPress={props.onStopExclusion.bind(this, props.id)} />
           ) : null
         }
       </View>

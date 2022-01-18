@@ -378,9 +378,6 @@ export default function App() {
   return (
     <View style={styles.screen}>
       <View style={styles.standaloneContainer}>
-        <Text>Simple Gifts</Text>
-      </View>
-      <View style={styles.standaloneContainer}>
         <Text>People</Text>
       </View>
       <View style={styles.peopleContainer}>
@@ -439,7 +436,7 @@ export default function App() {
         />
       </View>
       <View style={styles.exclusionsContainer}>
-        <Text>Must not give to...</Text>
+        <Text>Mustn't give to...</Text>
         <FlatList
           keyExtractor={(item, index) => item.id}
           data={listedExclusions}
