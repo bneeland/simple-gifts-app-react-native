@@ -429,7 +429,7 @@ export default function App() {
       </View>
       <View style={[styles.standaloneContainer, styles.rulesHeader]}>
         <Pressable onPress={toggleRulesHandler}>
-          <Text style={styles.heading}>Rules</Text>
+          <Text style={styles.heading}>Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
         </Pressable>
       </View>
       {
@@ -524,13 +524,13 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     paddingTop: 16+8,
-    paddingBottom: 8,
     backgroundColor: 'navajowhite',
   },
   peopleContainer: {
-    flex: 5,
+    flex: 1,
     backgroundColor: 'lightgoldenrodyellow',
     padding: 8,
+    paddingBottom: 0,
   },
   inclusionsContainer: {
     flex: 5,
