@@ -356,7 +356,6 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
-      <Text>Current inclusion: {currentInclusion[0]}</Text>
       <View style={styles.peopleContainer}>
         <Button title="Add person" onPress={() => setIsAddPersonMode(true)} />
         <FlatList
