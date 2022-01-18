@@ -234,30 +234,110 @@ export default function App() {
 
 
 
+// EmailJS from Postman javascript fetch output (from react-native-requests test project)
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "service_id": "service_su87f99",
+      "template_id": "template_9c542q8",
+      "user_id": "user_dDwrcQ642rbj3GiInsw2h",
+      "template_params": {
+        "subject": "Test subject",
+        "message": "Test message",
+        "to_email": "brian.neeland@gmail.com",
+        "from_email": "info@simplegiftsapp.com"
+      },
+      "accessToken": "84d6aee92283c6be025714a940ced917",
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("https://api.emailjs.com/api/v1.0/email/send", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+
+
 
 
 // Nodemailer through own express backend api
 
-// From: 'info@simplegiftsapp.com',
-// To: 'brian.neeland@gmail.com',
-// Subject: 'Simple Gifts - Test 1',
-// TextBody: 'Hello, this is a test email.',
-// HtmlBody: '<b>Hello</b>, this a test email.',
+// from: 'info@simplegiftsapp.com',
+// to: 'brian.neeland@gmail.com',
+// subject: 'Simple Gifts - Test 1',
+// text: 'Hello, this is a test email.',
+// html: '<b>Hello</b>, this a test email.',
 
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("Key1", "Value1");
-    urlencoded.append("Key2", "Value2");
+    // var urlencoded = new URLSearchParams();
+    // urlencoded.append("from", "Simple Gifts app <info@simplegiftsapp.com>");
+    // urlencoded.append("to", "brian.neeland@gmail.com");
+    // urlencoded.append("subject", "Simple Gifts - Test 0");
+    // urlencoded.append("text", "Hello, this is a test email.");
+    // urlencoded.append("html", "<b>Hello</b>, this a test email.");
+    //
+    // try {
+    //   fetch('http://localhost:5000', {
+    //     method: 'POST',
+    //     // headers: {
+    //     //   'Content-Type': 'application/json',
+    //     // },
+    //     // headers: {
+    //     //   'Content-Type': 'application/json',
+    //     //   'Accept': 'application/json',
+    //     //   'X-Postmark-Server-Token': '742b493c-99cd-499a-9c29-b0a8318cf381',
+    //     //   'Access-Control-Allow-Origin': '*',
+    //     // },
+    //     body: urlencoded,
+    //     // body: {
+    //     //   "from":"info@simplegiftsapp.com",
+    //     //   "to":"brian.neeland@gmail.com"
+    //     // },
+    //   });
+    // } catch (error) {
+    //   console.error(error);
+    // }
 
-    fetch('http://localhost:5000', {
-      method: 'POST',
-      // headers: {
-      //   'Content-Type': 'application/json',
-      //   'Accept': 'application/json',
-      //   'X-Postmark-Server-Token': '742b493c-99cd-499a-9c29-b0a8318cf381',
-      //   'Access-Control-Allow-Origin': '*',
-      // },
-      body: urlencoded,
-    });
+// WORKS WITH WEB, AND REQUEST GOEST THROUGH WITHOUT ERRORS IN ANDROID, BUT THERE'S NO POST DATA!
+    // fetch('http://192.168.1.67:5000', {
+    //   method: 'POST',
+    //   // headers: {
+    //   //   'Content-Type': 'application/json',
+    //   // },
+    //   // headers: {
+    //   //   'Content-Type': 'application/json',
+    //   //   'Accept': 'application/json',
+    //   //   'X-Postmark-Server-Token': '742b493c-99cd-499a-9c29-b0a8318cf381',
+    //   //   'Access-Control-Allow-Origin': '*',
+    //   // },
+    //   body: urlencoded,
+    //   // body: {
+    //   //   "from":"info@simplegiftsapp.com",
+    //   //   "to":"brian.neeland@gmail.com"
+    //   // },
+    // }).then(response => {
+    //   console.log('Post request done');
+    // }).catch(error => {
+    //   console.error(error.message);
+    // });
+
+    // fetch('http://10.0.2.2:5000').then(response => {
+    //   if (response.status == 200) {
+    //     console.log(response.text());
+    //   } else {
+    //     throw new Error('Request failed.');
+    //   }
+    // }).then(responseText => {
+    //   console.log(responseText);
+    // }).catch(error => {
+    //   console.error(error.message);
+    // });
 
 // Nodemailer: Doesn't work via react native because it's front end only.
     // let transporter = nodemailer.createTransport({
@@ -339,7 +419,7 @@ export default function App() {
     //     'Content-Type': 'application/json',
     //   },
     //   body: JSON.stringify({
-    //     service_id: 'service_nbnolct',
+    //     service_id: 'service_su87f99',
     //     template_id: 'template_9c542q8',
     //     user_id: 'user_dDwrcQ642rbj3GiInsw2h',
     //     template_params: {
@@ -349,6 +429,10 @@ export default function App() {
     //       'from_email': 'info@simplegiftsapp.com'
     //     },
     //   }),
+    // }).then(response => {
+    //   console.log('Post request done');
+    // }).catch(error => {
+    //   console.error(error.message);
     // });
 
 // EMAILJS: WORKS, BUT ONLY FROM WEB. FROM ANDROID RETURNS ERROR SAYING IT'S BLOCKED FROM MOBILE.
