@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableNativeFeedback, Pressable } from 'react-native';
 
+import Colors from '../constants/Colors';
+
 const ExclusionItem = props => {
   return (
     <TouchableNativeFeedback>
@@ -18,13 +20,13 @@ const styles = StyleSheet.create({
   buttonBox: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'dodgerblue',
+    backgroundColor: Colors.warningButtonBackground,
     borderRadius: 150,
     padding: 10,
   },
   buttonText: {
     fontWeight: 'bold',
-    color: 'white',
+    color: Colors.warningButtonText,
   },
 });
 

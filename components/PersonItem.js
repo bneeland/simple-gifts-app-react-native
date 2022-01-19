@@ -13,8 +13,8 @@ const PersonItem = props => {
         <View style={styles.deleteContainer}>
           {
             (!props.isAddInclusionMode && !props.isAddExclusionMode) ? (
-              <Pressable style={[styles.buttonBox, styles.deleteButton]} onPress={props.onDelete.bind(this, props.id)}>
-                <Text style={styles.buttonText}>×</Text>
+              <Pressable style={[styles.buttonBox, styles.deleteButtonBox]} onPress={props.onDelete.bind(this, props.id)}>
+                <Text style={[styles.buttonText, styles.deleteButtonText]}>×</Text>
               </Pressable>
             ) : null
           }
@@ -117,10 +117,14 @@ const styles = StyleSheet.create({
   buttonTextDisabled: {
     color: Colors.disabledButtonText,
   },
-  deleteButton: {
+  deleteButtonBox: {
     width: 40,
     height: 40,
     fontSize: 20,
+    backgroundColor: Colors.warningButtonBackground
+  },
+  deleteButtonText: {
+    color: Colors.warningButtonText,
   },
   heading: {
     fontSize: 18,
