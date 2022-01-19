@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   buttonBox: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'steelblue',
+    backgroundColor: 'dodgerblue',
     borderRadius: 150,
     padding: 10,
   },

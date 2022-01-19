@@ -15,6 +15,8 @@ import ExclusionItem from './components/ExclusionItem';
 import AssignButton from './components/AssignButton';
 import AssignConfirm from './components/AssignConfirm';
 
+import Colors from './constants/Colors';
+
 export default function App() {
   const [isAddPersonMode, setIsAddPersonMode] = useState(false);
   const [isDeletePersonMode, setIsDeletePersonMode] = useState(false);
@@ -391,27 +393,29 @@ export default function App() {
         <Text style={styles.heading}>People</Text>
       </View>
       <View style={styles.peopleContainer}>
-        {
-          isAddInclusionMode ? (
-            <Pressable style={styles.buttonBox} onPress={cancelInclusionHandler}>
-              <Text style={styles.buttonText}>Cancel</Text>
-            </Pressable>
-          ) : null
-        }
-        {
-          isAddExclusionMode ? (
-            <Pressable style={styles.buttonBox} onPress={cancelExclusionHandler}>
-              <Text style={styles.buttonText}>Cancel</Text>
-            </Pressable>
-          ) : null
-        }
-        {
-          (!isAddInclusionMode && !isAddExclusionMode) ? (
-            <Pressable style={styles.buttonBox} onPress={() => setIsAddPersonMode(true)}>
-              <Text style={styles.buttonText}>Add person</Text>
-            </Pressable>
-          ) : null
-        }
+        <View style={styles.topButtonContainer}>
+          {
+            isAddInclusionMode ? (
+              <Pressable style={styles.buttonBox} onPress={cancelInclusionHandler}>
+                <Text style={styles.buttonText}>Cancel</Text>
+              </Pressable>
+            ) : null
+          }
+          {
+            isAddExclusionMode ? (
+              <Pressable style={styles.buttonBox} onPress={cancelExclusionHandler}>
+                <Text style={styles.buttonText}>Cancel</Text>
+              </Pressable>
+            ) : null
+          }
+          {
+            (!isAddInclusionMode && !isAddExclusionMode) ? (
+              <Pressable style={styles.buttonBox} onPress={() => setIsAddPersonMode(true)}>
+                <Text style={styles.buttonText}>Add person</Text>
+              </Pressable>
+            ) : null
+          }
+        </View>
         <FlatList
           keyExtractor={(item, index) => item.id}
           data={listedPeople}
@@ -552,13 +556,16 @@ const styles = StyleSheet.create({
     // backgroundColor: 'papayawhip',
     padding: 8,
   },
+  topButtonContainer: {
+    paddingBottom: 8,
+  },
   rulesHeader: {
     borderTopWidth: 1,
-    borderColor: 'lightgrey',
+    borderColor: Colors.border,
   },
   finalizeHeader: {
     borderTopWidth: 1,
-    borderColor: 'lightgrey',
+    borderColor: Colors.border,
   },
   heading: {
     fontSize: 18,
@@ -572,19 +579,12 @@ const styles = StyleSheet.create({
   buttonBox: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'steelblue',
-    borderRadius: 150,
-    padding: 10,
-  },
-  buttonBox: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'steelblue',
+    backgroundColor: Colors.darkButtonBackground,
     borderRadius: 150,
     padding: 10,
   },
   buttonText: {
     fontWeight: 'bold',
-    color: 'white',
+    color: Colors.darkButtonText,
   },
 });

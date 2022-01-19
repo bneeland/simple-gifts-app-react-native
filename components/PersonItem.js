@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableNativeFeedback, Pressable } from 'react-native';
 
+import Colors from '../constants/Colors';
+
 const PersonItem = props => {
   return (
     <View style={styles.personItemContainer}>
@@ -33,7 +35,7 @@ const PersonItem = props => {
           (props.isAddInclusionMode) ? (
             <View style={styles.ruleButtonContainer}>
               <Pressable style={props.currentInclusion != props.id ? styles.buttonBox : styles.buttonBoxDisabled} disabled={props.currentInclusion != props.id ? false : true} onPress={props.onStopInclusion.bind(this, props.id)}>
-                <Text style={styles.buttonText}>Select</Text>
+                <Text style={props.currentInclusion != props.id ? styles.buttonText : styles.buttonTextDisabled}>Select</Text>
               </Pressable>
             </View>
           ) : null
@@ -50,7 +52,7 @@ const PersonItem = props => {
         {
           (props.isAddExclusionMode) ? (
             <View style={styles.ruleButtonContainer}>
-              <Pressable style={styles.buttonBox} disabled={props.currentExclusion != props.id ? false : true} onPress={props.onStopExclusion.bind(this, props.id)}>
+              <Pressable style={props.currentExclusion != props.id ? styles.buttonBox : styles.buttonBoxDisabled} disabled={props.currentExclusion != props.id ? false : true} onPress={props.onStopExclusion.bind(this, props.id)}>
                 <Text style={styles.buttonText}>Select</Text>
               </Pressable>
             </View>
@@ -97,20 +99,23 @@ const styles = StyleSheet.create({
   buttonBox: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'steelblue',
+    backgroundColor: Colors.lightButtonBackground,
     borderRadius: 150,
     padding: 10,
   },
   buttonBoxDisabled: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'lightsteelblue',
+    backgroundColor: Colors.disabledButtonBackground,
     borderRadius: 150,
     padding: 10,
   },
   buttonText: {
     fontWeight: 'bold',
-    color: 'white',
+    color: Colors.lightButtonText,
+  },
+  buttonTextDisabled: {
+    color: Colors.disabledButtonText,
   },
   deleteButton: {
     width: 40,
