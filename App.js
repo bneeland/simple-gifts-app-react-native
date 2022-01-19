@@ -311,6 +311,7 @@ export default function App() {
     setListedInclusions(currentInclusion => {
       return currentInclusion.filter((inclusion) => inclusion.id !== inclusionId)
     });
+    setIsRulesToggleOpen(false);
     setIsDeleteInclusionMode(false);
   };
 
@@ -437,11 +438,15 @@ export default function App() {
           )}
         />
       </View>
-      <View style={[styles.standaloneContainer, styles.rulesHeader]}>
-        <Pressable onPress={toggleRulesHandler}>
-          <Text style={styles.heading}>Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
-        </Pressable>
-      </View>
+      {
+        (Object.keys(listedInclusions).length + Object.keys(listedExclusions).length > 0) ? (
+          <View style={[styles.standaloneContainer, styles.rulesHeader]}>
+            <Pressable onPress={toggleRulesHandler}>
+              <Text style={styles.heading}>Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
+            </Pressable>
+          </View>
+        ) : null
+      }
       {
         (isRulesToggleOpen) ? (
           <>
@@ -534,34 +539,29 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     paddingTop: 16+8,
-    // backgroundColor: 'navajowhite',
   },
   peopleContainer: {
-    flex: 1,
-    // backgroundColor: 'lightgoldenrodyellow',
+    flex: 3,
     padding: 8,
     paddingBottom: 0,
   },
   inclusionsContainer: {
-    flex: 3,
-    // backgroundColor: 'oldlace',
+    flex: 2,
     padding: 8,
   },
   exclusionsContainer: {
-    flex: 3,
-    // backgroundColor: 'papayawhip',
+    flex: 4,
     padding: 8,
   },
   standaloneContainer: {
-    // backgroundColor: 'papayawhip',
     padding: 8,
   },
   topButtonContainer: {
     paddingBottom: 8,
   },
   rulesHeader: {
-    borderTopWidth: 1,
-    borderColor: Colors.border,
+    backgroundColor: Colors.disabledButtonBackground,
+    color: Colors.lightButtonText,
   },
   finalizeHeader: {
     borderTopWidth: 1,
