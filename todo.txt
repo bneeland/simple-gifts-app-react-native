@@ -1,1 +1,5 @@
-[X] Make sure rules that include a person get deleted when the person gets deleted.
+[X] Make sure rules that include a person get deleted when the person gets deleted
+[X] Try putting rules into a modal—it's clunky right now on a few different levels
+[ ] Make mobile keyboard open automatically for person input
+[ ] Make web version look more like a web app
+[ ] Test on ios

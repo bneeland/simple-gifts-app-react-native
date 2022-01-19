@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, FlatList, Alert, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList, Alert, Pressable, Modal } from 'react-native';
 
 import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
@@ -62,11 +62,13 @@ export default function App() {
   const deleteInclusionHandler = inclusionId => {
     setInclusionToDelete(inclusionId);
     setIsDeleteInclusionMode(true);
+    setIsRulesToggleOpen(false);
   };
 
   const deleteExclusionHandler = exclusionId => {
     setExclusionToDelete(exclusionId);
     setIsDeleteExclusionMode(true);
+    setIsRulesToggleOpen(false);
   };
 
   const cancelDeletePersonHandler = () => {
@@ -77,11 +79,13 @@ export default function App() {
   const cancelDeleteInclusionHandler = () => {
     setInclusionToDelete('');
     setIsDeleteInclusionMode(false);
+    setIsRulesToggleOpen(true);
   };
 
   const cancelDeleteExclusionHandler = () => {
     setExclusionToDelete('');
     setIsDeleteExclusionMode(false);
+    setIsRulesToggleOpen(true);
   };
 
   const cancelAssignHandler = () => {
@@ -455,47 +459,11 @@ export default function App() {
       </View>
       {
         (Object.keys(listedInclusions).length + Object.keys(listedExclusions).length > 0) ? (
-          <View style={[styles.standaloneContainer, styles.rulesHeader]}>
-            <Pressable onPress={toggleRulesHandler}>
-              <Text style={styles.heading}>Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
-            </Pressable>
-          </View>
-        ) : null
-      }
-      {
-        (isRulesToggleOpen) ? (
-          <>
-          <View style={styles.inclusionsContainer}>
-            <Text style={styles.subheading}>Must give to…</Text>
-            <FlatList
-              keyExtractor={(item, index) => item.id}
-              data={listedInclusions}
-              renderItem={itemData => (
-                <InclusionItem
-                  from={getPersonItemName(itemData.item.from)}
-                  to={getPersonItemName(itemData.item.to)}
-                  id={itemData.item.id}
-                  onDelete={deleteInclusionHandler}
-                />
-              )}
-            />
-          </View>
-          <View style={styles.exclusionsContainer}>
-            <Text style={styles.subheading}>Mustn't give to…</Text>
-            <FlatList
-              keyExtractor={(item, index) => item.id}
-              data={listedExclusions}
-              renderItem={itemData => (
-                <ExclusionItem
-                  from={getPersonItemName(itemData.item.from)}
-                  to={getPersonItemName(itemData.item.to)}
-                  id={itemData.item.id}
-                  onDelete={deleteExclusionHandler}
-                />
-              )}
-            />
-          </View>
-          </>
+          <Pressable onPress={toggleRulesHandler}>
+            <View style={[styles.standaloneContainer, styles.rulesHeader]}>
+              <Text style={styles.heading}>☰ Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
+            </View>
+          </Pressable>
         ) : null
       }
       {
@@ -546,6 +514,47 @@ export default function App() {
         onCancel={cancelAssignHandler}
         onConfirm={confirmAssignHandler}
       />
+      <Modal
+        animationType="slide"
+        visible={isRulesToggleOpen}
+        onRequestClose={() => toggleRulesHandler}
+      >
+        <Pressable onPress={toggleRulesHandler}>
+          <View style={styles.standaloneContainer}>
+            <Text style={styles.heading}>✕ Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
+          </View>
+        </Pressable>
+        <View style={styles.inclusionsContainer}>
+          <Text style={styles.subheading}>✓ Must give to…</Text>
+          <FlatList
+            keyExtractor={(item, index) => item.id}
+            data={listedInclusions}
+            renderItem={itemData => (
+              <InclusionItem
+                from={getPersonItemName(itemData.item.from)}
+                to={getPersonItemName(itemData.item.to)}
+                id={itemData.item.id}
+                onDelete={deleteInclusionHandler}
+              />
+            )}
+          />
+        </View>
+        <View style={styles.exclusionsContainer}>
+          <Text style={styles.subheading}>✗ Mustn't give to…</Text>
+          <FlatList
+            keyExtractor={(item, index) => item.id}
+            data={listedExclusions}
+            renderItem={itemData => (
+              <ExclusionItem
+                from={getPersonItemName(itemData.item.from)}
+                to={getPersonItemName(itemData.item.to)}
+                id={itemData.item.id}
+                onDelete={deleteExclusionHandler}
+              />
+            )}
+          />
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -556,18 +565,18 @@ const styles = StyleSheet.create({
     paddingTop: 16+8,
   },
   peopleContainer: {
-    flex: 3,
+    flex: 1,
     paddingTop: 8,
     paddingBottom: 0,
     paddingHorizontal: 16,
   },
   inclusionsContainer: {
-    flex: 2,
+    flex: 1,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
   exclusionsContainer: {
-    flex: 4,
+    flex: 1,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },

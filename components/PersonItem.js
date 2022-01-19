@@ -14,7 +14,7 @@ const PersonItem = props => {
             (!props.isAddInclusionMode && !props.isAddExclusionMode) ? (
               <View style={styles.ruleButtonContainer}>
                 <Pressable style={[styles.buttonBox, styles.buttonLeft]} onPress={props.onStartInclusion.bind(this, props.id)}>
-                  <Text style={styles.buttonText}>Must give to…</Text>
+                  <Text style={styles.buttonText}>✓ Must give to…</Text>
                 </Pressable>
               </View>
             ) : null
@@ -32,7 +32,7 @@ const PersonItem = props => {
             (!props.isAddExclusionMode && !props.isAddInclusionMode) ? (
               <View style={styles.ruleButtonContainer}>
                 <Pressable style={[styles.buttonBox, styles.buttonRight]} onPress={props.onStartExclusion.bind(this, props.id)}>
-                  <Text style={styles.buttonText}>Mustn't give to…</Text>
+                  <Text style={styles.buttonText}>✗ Mustn't give to…</Text>
                 </Pressable>
               </View>
             ) : null
@@ -52,7 +52,7 @@ const PersonItem = props => {
         {
           (!props.isAddInclusionMode && !props.isAddExclusionMode) ? (
             <Pressable style={[styles.buttonBox, styles.deleteButtonBox]} onPress={props.onDelete.bind(this, props.id)}>
-              <Text style={[styles.buttonText, styles.deleteButtonText]}>×</Text>
+              <Text style={[styles.buttonText, styles.deleteButtonText]}>✕</Text>
             </Pressable>
           ) : null
         }
