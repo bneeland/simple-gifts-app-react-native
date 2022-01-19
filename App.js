@@ -393,17 +393,23 @@ export default function App() {
       <View style={styles.peopleContainer}>
         {
           isAddInclusionMode ? (
-            <Button title="Cancel rule-making" onPress={cancelInclusionHandler} />
+            <Pressable style={styles.buttonBox} onPress={cancelInclusionHandler}>
+              <Text style={styles.buttonText}>Cancel</Text>
+            </Pressable>
           ) : null
         }
         {
           isAddExclusionMode ? (
-            <Button title="Cancel rule-making" onPress={cancelExclusionHandler} />
+            <Pressable style={styles.buttonBox} onPress={cancelExclusionHandler}>
+              <Text style={styles.buttonText}>Cancel</Text>
+            </Pressable>
           ) : null
         }
         {
           (!isAddInclusionMode && !isAddExclusionMode) ? (
-            <Button title="Add person" onPress={() => setIsAddPersonMode(true)} />
+            <Pressable style={styles.buttonBox} onPress={() => setIsAddPersonMode(true)}>
+              <Text style={styles.buttonText}>Add person</Text>
+            </Pressable>
           ) : null
         }
         <FlatList
@@ -524,26 +530,26 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     paddingTop: 16+8,
-    backgroundColor: 'navajowhite',
+    // backgroundColor: 'navajowhite',
   },
   peopleContainer: {
     flex: 1,
-    backgroundColor: 'lightgoldenrodyellow',
+    // backgroundColor: 'lightgoldenrodyellow',
     padding: 8,
     paddingBottom: 0,
   },
   inclusionsContainer: {
     flex: 3,
-    backgroundColor: 'oldlace',
+    // backgroundColor: 'oldlace',
     padding: 8,
   },
   exclusionsContainer: {
     flex: 3,
-    backgroundColor: 'papayawhip',
+    // backgroundColor: 'papayawhip',
     padding: 8,
   },
   standaloneContainer: {
-    backgroundColor: 'papayawhip',
+    // backgroundColor: 'papayawhip',
     padding: 8,
   },
   rulesHeader: {
@@ -562,5 +568,23 @@ const styles = StyleSheet.create({
   subheading: {
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
+  buttonBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'steelblue',
+    borderRadius: 150,
+    padding: 10,
+  },
+  buttonBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'steelblue',
+    borderRadius: 150,
+    padding: 10,
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });
