@@ -456,6 +456,11 @@ export default function App() {
             />
           )}
         />
+        {
+          (Object.keys(listedPeople).length < 3) ? (
+            <Text style={styles.helpText}>Add at least 3 people to start assigning</Text>
+          ) : null
+        }
       </View>
       {
         (Object.keys(listedInclusions).length + Object.keys(listedExclusions).length > 0) ? (
@@ -538,6 +543,12 @@ export default function App() {
               />
             )}
           />
+          {
+            (Object.keys(listedInclusions).length == 0) ? (
+              <Text style={styles.helpText}>{`Create rules on the main "People" screen.
+              Rules will appear here.`}</Text>
+            ) : null
+          }
         </View>
         <View style={styles.exclusionsContainer}>
           <Text style={styles.subheading}>✗ Mustn't give to…</Text>
@@ -553,6 +564,12 @@ export default function App() {
               />
             )}
           />
+          {
+            (Object.keys(listedExclusions).length == 0) ? (
+              <Text style={styles.helpText}>{`Create rules on the main "People" screen.
+              Rules will appear here.`}</Text>
+            ) : null
+          }
         </View>
       </Modal>
     </View>
@@ -615,4 +632,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.darkButtonText,
   },
+  helpText: {
+    flex: 1,
+    color: Colors.disabledButtonText,
+    textAlign: 'center',
+  }
 });

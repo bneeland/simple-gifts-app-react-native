@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   nameContainer: {
     flex: 1,
@@ -114,14 +114,14 @@ const styles = StyleSheet.create({
     color: Colors.disabledButtonText,
   },
   deleteButtonBox: {
-    padding: 0,
     width: 30,
     height: 30,
-    fontSize: 20,
     backgroundColor: Colors.warningButtonBackground
   },
   deleteButtonText: {
     color: Colors.warningButtonText,
+    fontSize: 12,
+    lineHeight: 12,
   },
   heading: {
     fontSize: 18,

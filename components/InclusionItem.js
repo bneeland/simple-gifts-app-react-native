@@ -11,7 +11,7 @@ const InclusionItem = props => {
         </View>
         <View style={styles.deleteContainer}>
           <Pressable style={[styles.buttonBox, styles.deleteButtonBox]} onPress={props.onDelete.bind(this, props.id)}>
-            <Text style={[styles.buttonText, styles.deleteButtonText]}>×</Text>
+            <Text style={[styles.buttonText, styles.deleteButtonText]}>✕</Text>
           </Pressable>
         </View>
       </View>
@@ -46,14 +46,14 @@ const styles = StyleSheet.create({
     color: Colors.warningButtonText,
   },
   deleteButtonBox: {
-    padding: 0,
     width: 30,
     height: 30,
-    fontSize: 20,
     backgroundColor: Colors.warningButtonBackground
   },
   deleteButtonText: {
     color: Colors.warningButtonText,
+    fontSize: 12,
+    lineHeight: 12,
   },
 });
 
