@@ -319,6 +319,7 @@ export default function App() {
     setListedExclusions(currentExclusion => {
       return currentExclusion.filter((exclusion) => exclusion.id !== exclusionId)
     });
+    setIsRulesToggleOpen(false);
     setIsDeleteExclusionMode(false);
   };
 

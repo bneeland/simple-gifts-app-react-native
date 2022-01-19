@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableNativeFeedback, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 
 const InclusionItem = props => {
   return (
-    <TouchableNativeFeedback>
       <View style={styles.itemContainer}>
         <View style={styles.contentContainer}>
           <Text>{props.from} must give to {props.to}</Text>
@@ -16,7 +15,6 @@ const InclusionItem = props => {
           </Pressable>
         </View>
       </View>
-    </TouchableNativeFeedback>
   );
 };
 

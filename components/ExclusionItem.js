@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableNativeFeedback, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 
 const ExclusionItem = props => {
   return (
-    <TouchableNativeFeedback>
       <View style={styles.itemContainer}>
         <View style={styles.contentContainer}>
           <Text>{props.from} mustn't give to {props.to}</Text>
@@ -16,7 +15,6 @@ const ExclusionItem = props => {
           </Pressable>
         </View>
       </View>
-    </TouchableNativeFeedback>
   );
 };
 
