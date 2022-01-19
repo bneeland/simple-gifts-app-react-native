@@ -466,7 +466,7 @@ export default function App() {
         (Object.keys(listedInclusions).length + Object.keys(listedExclusions).length > 0) ? (
           <Pressable onPress={toggleRulesHandler}>
             <View style={[styles.standaloneContainer, styles.rulesHeader]}>
-              <Text style={styles.heading}>☰ Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
+              <Text style={styles.heading}>▲ Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
             </View>
           </Pressable>
         ) : null
