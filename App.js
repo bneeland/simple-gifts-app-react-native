@@ -579,8 +579,8 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   rulesHeader: {
-    backgroundColor: Colors.disabledButtonBackground,
-    color: Colors.lightButtonText,
+    borderTopWidth: 1,
+    borderColor: Colors.border,
   },
   finalizeHeader: {
     borderTopWidth: 1,
