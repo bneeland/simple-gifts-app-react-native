@@ -274,8 +274,9 @@ export default function App() {
           "template_id": "template_9c542q8",
           "user_id": "user_dDwrcQ642rbj3GiInsw2h",
           "template_params": {
-            "subject": "Test subject",
-            "message": `Hello ${giver['name']}, The person you will give a gift to is ${receiver['name']}.`,
+            "subject": "Simple Gifts: Your assigned giftee",
+            "giver_name": giver['name'],
+            "receiver_name": receiver['name'],
             "to_email": giver['email'],
             "from_email": "info@simplegiftsapp.com"
           },

@@ -3,3 +3,4 @@
 [ ] Make mobile keyboard open automatically for person input
 [ ] Make web version look more like a web app
 [ ] Test on ios
+[ ] Launch
