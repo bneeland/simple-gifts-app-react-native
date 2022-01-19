@@ -1,1 +1,1 @@
-[ ] Make sure rules that include a person get deleted when the person gets deleted.
+[X] Make sure rules that include a person get deleted when the person gets deleted.

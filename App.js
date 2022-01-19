@@ -220,7 +220,6 @@ export default function App() {
 
     }
 
-
     var vectors = {0: 0};
 
     var randomizedListedPeople = {};
@@ -301,8 +300,23 @@ export default function App() {
   };
 
   const confirmDeletePersonHandler = personId => {
+    // Delete person
     setListedPeople(currentPeople => {
       return currentPeople.filter((person) => person.id !== personId)
+    });
+    // Delete inclusions associated with that person
+    setListedInclusions(activeInclusions => {
+      return activeInclusions.filter((inclusion) => inclusion.from !== personId)
+    });
+    setListedInclusions(activeInclusions => {
+      return activeInclusions.filter((inclusion) => inclusion.to !== personId)
+    });
+    // Delete exclusions associated with that person
+    setListedExclusions(activeExclusions => {
+      return activeExclusions.filter((exclusion) => exclusion.from !== personId)
+    });
+    setListedExclusions(activeExclusions => {
+      return activeExclusions.filter((exclusion) => exclusion.to !== personId)
     });
     setIsDeletePersonMode(false);
   };

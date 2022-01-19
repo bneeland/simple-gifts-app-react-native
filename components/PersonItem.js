@@ -41,7 +41,7 @@ const PersonItem = props => {
             (props.isAddExclusionMode) ? (
               <View style={styles.ruleButtonContainer}>
                 <Pressable style={props.currentExclusion != props.id ? styles.buttonBox : styles.buttonBoxDisabled} disabled={props.currentExclusion != props.id ? false : true} onPress={props.onStopExclusion.bind(this, props.id)}>
-                  <Text style={styles.buttonText}>Select</Text>
+                  <Text style={props.currentExclusion != props.id ? styles.buttonText : styles.buttonTextDisabled}>Select</Text>
                 </Pressable>
               </View>
             ) : null
