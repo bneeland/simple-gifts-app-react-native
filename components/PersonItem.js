@@ -13,7 +13,7 @@ const PersonItem = props => {
           {
             (!props.isAddInclusionMode && !props.isAddExclusionMode) ? (
               <View style={styles.ruleButtonContainer}>
-                <Pressable style={styles.buttonBox} onPress={props.onStartInclusion.bind(this, props.id)}>
+                <Pressable style={[styles.buttonBox, styles.buttonLeft]} onPress={props.onStartInclusion.bind(this, props.id)}>
                   <Text style={styles.buttonText}>Must give to…</Text>
                 </Pressable>
               </View>
@@ -31,7 +31,7 @@ const PersonItem = props => {
           {
             (!props.isAddExclusionMode && !props.isAddInclusionMode) ? (
               <View style={styles.ruleButtonContainer}>
-                <Pressable style={styles.buttonBox} onPress={props.onStartExclusion.bind(this, props.id)}>
+                <Pressable style={[styles.buttonBox, styles.buttonRight]} onPress={props.onStartExclusion.bind(this, props.id)}>
                   <Text style={styles.buttonText}>Mustn't give to…</Text>
                 </Pressable>
               </View>
@@ -129,7 +129,13 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     marginBottom: 8,
-  }
+  },
+  buttonLeft: {
+    marginRight: 4,
+  },
+  buttonRight: {
+    marginLeft: 4,
+  },
 });
 
 export default PersonItem;
