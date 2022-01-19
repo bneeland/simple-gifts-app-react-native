@@ -8,7 +8,7 @@ const PersonItem = props => {
     <View style={styles.personItemContainer}>
       <View style={styles.contentContainer}>
         <Text style={styles.heading}>{props.name}</Text>
-        <Text>{props.email}</Text>
+        <Text style={styles.paragraph}>{props.email}</Text>
         <View style={styles.ruleButtonsContainer}>
           {
             (!props.isAddInclusionMode && !props.isAddExclusionMode) ? (
@@ -127,6 +127,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  paragraph: {
+    marginBottom: 8,
+  }
 });
 
 export default PersonItem;
