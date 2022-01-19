@@ -557,19 +557,23 @@ const styles = StyleSheet.create({
   },
   peopleContainer: {
     flex: 3,
-    padding: 8,
+    paddingTop: 8,
     paddingBottom: 0,
+    paddingHorizontal: 16,
   },
   inclusionsContainer: {
     flex: 2,
-    padding: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   exclusionsContainer: {
     flex: 4,
-    padding: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   standaloneContainer: {
-    padding: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   topButtonContainer: {
     paddingBottom: 8,
