@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, FlatList, Alert, Pressable, Modal } from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList, Alert, Pressable, Modal, SafeAreaView } from 'react-native';
 
 import PersonItem from './components/PersonItem';
 import PersonAddInput from './components/PersonAddInput';
@@ -294,10 +294,16 @@ export default function App() {
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
+
       }
+
+      Alert.alert('Success!', 'Simple Gifts has sent emails to each person in your list, informing them of the person assigned to them for the gift exchange.', [
+        {text: 'Close'}
+      ]);
+
     } catch(error) {
       console.log('Error in sending emails:', error);
-      Alert.alert('Hang on...', 'There seems to be an issue with your inputs.\n\nMaybe check them to make sure they make sense and try this button again.', [
+      Alert.alert('Hang on…', 'There seems to be an issue with your inputs.\n\nMaybe check them to make sure they make sense and try to finalize again.', [
         {text: 'Go back'}
       ]);
     }
@@ -409,175 +415,180 @@ export default function App() {
   };
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.standaloneContainer}>
-        <Text style={styles.heading}>People</Text>
-      </View>
-      <View style={styles.peopleContainer}>
-        <View style={styles.topButtonContainer}>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.screen}>
+        <View style={styles.standaloneContainer}>
+          <Text style={styles.heading}>People</Text>
+        </View>
+        <View style={styles.peopleContainer}>
+          <View style={styles.topButtonContainer}>
+            {
+              isAddInclusionMode ? (
+                <Pressable style={styles.buttonBox} onPress={cancelInclusionHandler}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </Pressable>
+              ) : null
+            }
+            {
+              isAddExclusionMode ? (
+                <Pressable style={styles.buttonBox} onPress={cancelExclusionHandler}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </Pressable>
+              ) : null
+            }
+            {
+              (!isAddInclusionMode && !isAddExclusionMode) ? (
+                <Pressable style={styles.buttonBox} onPress={() => setIsAddPersonMode(true)}>
+                  <Text style={styles.buttonText}>Add person</Text>
+                </Pressable>
+              ) : null
+            }
+          </View>
+          <FlatList
+            keyExtractor={(item, index) => item.id}
+            data={listedPeople}
+            renderItem={itemData => (
+              <PersonItem
+                id={itemData.item.id}
+                name={itemData.item.name}
+                email={itemData.item.email}
+                onDelete={deletePersonHandler}
+                onStartInclusion={startInclusionHandler}
+                onStopInclusion={stopInclusionHandler}
+                isAddInclusionMode={isAddInclusionMode}
+                currentInclusion={currentInclusion[0]}
+                onStartExclusion={startExclusionHandler}
+                onStopExclusion={stopExclusionHandler}
+                isAddExclusionMode={isAddExclusionMode}
+                currentExclusion={currentExclusion[0]}
+              />
+            )}
+          />
           {
-            isAddInclusionMode ? (
-              <Pressable style={styles.buttonBox} onPress={cancelInclusionHandler}>
-                <Text style={styles.buttonText}>Cancel</Text>
-              </Pressable>
-            ) : null
-          }
-          {
-            isAddExclusionMode ? (
-              <Pressable style={styles.buttonBox} onPress={cancelExclusionHandler}>
-                <Text style={styles.buttonText}>Cancel</Text>
-              </Pressable>
-            ) : null
-          }
-          {
-            (!isAddInclusionMode && !isAddExclusionMode) ? (
-              <Pressable style={styles.buttonBox} onPress={() => setIsAddPersonMode(true)}>
-                <Text style={styles.buttonText}>Add person</Text>
-              </Pressable>
+            (Object.keys(listedPeople).length < 3) ? (
+              <Text style={styles.helpText}>Add at least 3 people to start assigning</Text>
             ) : null
           }
         </View>
-        <FlatList
-          keyExtractor={(item, index) => item.id}
-          data={listedPeople}
-          renderItem={itemData => (
-            <PersonItem
-              id={itemData.item.id}
-              name={itemData.item.name}
-              email={itemData.item.email}
-              onDelete={deletePersonHandler}
-              onStartInclusion={startInclusionHandler}
-              onStopInclusion={stopInclusionHandler}
-              isAddInclusionMode={isAddInclusionMode}
-              currentInclusion={currentInclusion[0]}
-              onStartExclusion={startExclusionHandler}
-              onStopExclusion={stopExclusionHandler}
-              isAddExclusionMode={isAddExclusionMode}
-              currentExclusion={currentExclusion[0]}
-            />
-          )}
-        />
         {
-          (Object.keys(listedPeople).length < 3) ? (
-            <Text style={styles.helpText}>Add at least 3 people to start assigning</Text>
+          (Object.keys(listedInclusions).length + Object.keys(listedExclusions).length > 0) ? (
+            <Pressable onPress={toggleRulesHandler}>
+              <View style={[styles.standaloneContainer, styles.rulesHeader]}>
+                <Text style={styles.heading}>▲ Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
+              </View>
+            </Pressable>
           ) : null
         }
-      </View>
-      {
-        (Object.keys(listedInclusions).length + Object.keys(listedExclusions).length > 0) ? (
+        {
+          (Object.keys(listedPeople).length >= 3) ? (
+            <View style={[styles.standaloneContainer, styles.finalizeHeader]}>
+              <AssignButton
+                onAssign={assignHandler}
+              />
+            </View>
+          ) : null
+        }
+
+        <PersonAddInput
+          visible={isAddPersonMode}
+          onAddPerson={addPersonHandler}
+          onCancel={cancelAddPersonHandler}
+        />
+        <PersonDeleteConfirm
+          visible={isDeletePersonMode}
+          personToDelete={personToDelete}
+          onDeleteConfirm={confirmDeletePersonHandler}
+          onCancel={cancelDeletePersonHandler}
+        />
+        <InclusionAddConfirm
+          visible={isConfirmInclusionMode}
+          onConfirm={confirmInclusionHandler}
+          onCancel={cancelInclusionHandler}
+        />
+        <InclusionDeleteConfirm
+          visible={isDeleteInclusionMode}
+          inclusionToDelete={inclusionToDelete}
+          onDeleteConfirm={confirmDeleteInclusionHandler}
+          onCancel={cancelDeleteInclusionHandler}
+        />
+        <ExclusionAddConfirm
+          visible={isConfirmExclusionMode}
+          onConfirm={confirmExclusionHandler}
+          onCancel={cancelExclusionHandler}
+        />
+        <ExclusionDeleteConfirm
+          visible={isDeleteExclusionMode}
+          exclusionToDelete={exclusionToDelete}
+          onDeleteConfirm={confirmDeleteExclusionHandler}
+          onCancel={cancelDeleteExclusionHandler}
+        />
+        <AssignConfirm
+          visible={isAssignMode}
+          onCancel={cancelAssignHandler}
+          onConfirm={confirmAssignHandler}
+        />
+        <Modal
+          animationType="slide"
+          visible={isRulesToggleOpen}
+          onRequestClose={() => toggleRulesHandler}
+        >
           <Pressable onPress={toggleRulesHandler}>
-            <View style={[styles.standaloneContainer, styles.rulesHeader]}>
-              <Text style={styles.heading}>▲ Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
+            <View style={styles.standaloneContainer}>
+              <Text style={styles.heading}>✕ Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
             </View>
           </Pressable>
-        ) : null
-      }
-      {
-        (Object.keys(listedPeople).length >= 3) ? (
-          <View style={[styles.standaloneContainer, styles.finalizeHeader]}>
-            <AssignButton
-              onAssign={assignHandler}
+          <View style={styles.inclusionsContainer}>
+            <Text style={styles.subheading}>✓ Must give to…</Text>
+            <FlatList
+              keyExtractor={(item, index) => item.id}
+              data={listedInclusions}
+              renderItem={itemData => (
+                <InclusionItem
+                  from={getPersonItemName(itemData.item.from)}
+                  to={getPersonItemName(itemData.item.to)}
+                  id={itemData.item.id}
+                  onDelete={deleteInclusionHandler}
+                />
+              )}
             />
+            {
+              (Object.keys(listedInclusions).length == 0) ? (
+                <Text style={styles.helpText}>{`Create rules on the main "People" screen.
+                Rules will appear here.`}</Text>
+              ) : null
+            }
           </View>
-        ) : null
-      }
-
-      <PersonAddInput
-        visible={isAddPersonMode}
-        onAddPerson={addPersonHandler}
-        onCancel={cancelAddPersonHandler}
-      />
-      <PersonDeleteConfirm
-        visible={isDeletePersonMode}
-        personToDelete={personToDelete}
-        onDeleteConfirm={confirmDeletePersonHandler}
-        onCancel={cancelDeletePersonHandler}
-      />
-      <InclusionAddConfirm
-        visible={isConfirmInclusionMode}
-        onConfirm={confirmInclusionHandler}
-        onCancel={cancelInclusionHandler}
-      />
-      <InclusionDeleteConfirm
-        visible={isDeleteInclusionMode}
-        inclusionToDelete={inclusionToDelete}
-        onDeleteConfirm={confirmDeleteInclusionHandler}
-        onCancel={cancelDeleteInclusionHandler}
-      />
-      <ExclusionAddConfirm
-        visible={isConfirmExclusionMode}
-        onConfirm={confirmExclusionHandler}
-        onCancel={cancelExclusionHandler}
-      />
-      <ExclusionDeleteConfirm
-        visible={isDeleteExclusionMode}
-        exclusionToDelete={exclusionToDelete}
-        onDeleteConfirm={confirmDeleteExclusionHandler}
-        onCancel={cancelDeleteExclusionHandler}
-      />
-      <AssignConfirm
-        visible={isAssignMode}
-        onCancel={cancelAssignHandler}
-        onConfirm={confirmAssignHandler}
-      />
-      <Modal
-        animationType="slide"
-        visible={isRulesToggleOpen}
-        onRequestClose={() => toggleRulesHandler}
-      >
-        <Pressable onPress={toggleRulesHandler}>
-          <View style={styles.standaloneContainer}>
-            <Text style={styles.heading}>✕ Rules ({Object.keys(listedInclusions).length + Object.keys(listedExclusions).length})</Text>
+          <View style={styles.exclusionsContainer}>
+            <Text style={styles.subheading}>✗ Mustn't give to…</Text>
+            <FlatList
+              keyExtractor={(item, index) => item.id}
+              data={listedExclusions}
+              renderItem={itemData => (
+                <ExclusionItem
+                  from={getPersonItemName(itemData.item.from)}
+                  to={getPersonItemName(itemData.item.to)}
+                  id={itemData.item.id}
+                  onDelete={deleteExclusionHandler}
+                />
+              )}
+            />
+            {
+              (Object.keys(listedExclusions).length == 0) ? (
+                <Text style={styles.helpText}>{`Create rules on the main "People" screen.
+                Rules will appear here.`}</Text>
+              ) : null
+            }
           </View>
-        </Pressable>
-        <View style={styles.inclusionsContainer}>
-          <Text style={styles.subheading}>✓ Must give to…</Text>
-          <FlatList
-            keyExtractor={(item, index) => item.id}
-            data={listedInclusions}
-            renderItem={itemData => (
-              <InclusionItem
-                from={getPersonItemName(itemData.item.from)}
-                to={getPersonItemName(itemData.item.to)}
-                id={itemData.item.id}
-                onDelete={deleteInclusionHandler}
-              />
-            )}
-          />
-          {
-            (Object.keys(listedInclusions).length == 0) ? (
-              <Text style={styles.helpText}>{`Create rules on the main "People" screen.
-              Rules will appear here.`}</Text>
-            ) : null
-          }
-        </View>
-        <View style={styles.exclusionsContainer}>
-          <Text style={styles.subheading}>✗ Mustn't give to…</Text>
-          <FlatList
-            keyExtractor={(item, index) => item.id}
-            data={listedExclusions}
-            renderItem={itemData => (
-              <ExclusionItem
-                from={getPersonItemName(itemData.item.from)}
-                to={getPersonItemName(itemData.item.to)}
-                id={itemData.item.id}
-                onDelete={deleteExclusionHandler}
-              />
-            )}
-          />
-          {
-            (Object.keys(listedExclusions).length == 0) ? (
-              <Text style={styles.helpText}>{`Create rules on the main "People" screen.
-              Rules will appear here.`}</Text>
-            ) : null
-          }
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   screen: {
     flex: 1,
     paddingTop: 16+8,

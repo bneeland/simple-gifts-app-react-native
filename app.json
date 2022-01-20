@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "simple-gifts-app-react-native",
-    "slug": "simple-gifts-app-react-native",
+    "name": "Simple Gifts",
+    "slug": "simple-gifts",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/bneeland/simple-gifts-app-react-native"
   }
 }
